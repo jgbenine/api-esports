@@ -1,32 +1,28 @@
 'use client'
-
-import { useState } from "react"
+import axios from "axios"
+import {useState } from "react"
 export default function Login() {
-  const [keyApi, setKeyApi] = useState('')
+  const [inputKey, setInput] = useState('')
 
-  function handleSubmit(event) {
-    event.preventDefault()
-    var myHeaders = new Headers();
-    myHeaders.append("x-rapidapi-key", keyApi);
-    myHeaders.append("x-rapidapi-host", "v3.football.api-sports.io");
+    async function handleSubmit(event) {
+      event.preventDefault()
+      try {
+        const fetchResponse = await axios.get('https://v1.basketball.api-sports.io/status', {
+          headers: {
+            "x-rapidapi-key": inputKey,
+            "x-rapidapi-host": "v1.basketball.api-sports.io"
+          }
+        })
+        const dataFetch = await fetchResponse.data.response;
+        console.log(dataFetch)
+      } catch (error) {
+        console.log(error)
+      }
+    }
 
-    var requestOptions = {
-      method: 'GET',
-      headers: myHeaders,
-      // redirect: 'follow'
-    };
-
-    fetch("https://v3.football.api-sports.io/status", requestOptions)
-      .then(response => response.json())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-    console.log({
-      keyApi
-    })
-  }
 
   return (
-    <section className="flex-1 h-screen bg-zinc-800">
+    <section className="flex-1 h-screen bg-zinc-800 gap-3">
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <label htmlFor="keyAccess" className="text-sm">Insira key para acesso:</label>
         <input
@@ -34,11 +30,10 @@ export default function Login() {
           type="text"
           name="keyAccess"
           id="keyAccess"
-          value={keyApi}
-          onChange={({ target }) => setKeyApi(target.value)} />
+          value={inputKey}
+          onChange={({ target }) => setInput(target.value)} />
         <button type="submit" className="bg-green-600 w-24 mt-1 rounded-sm hover:bg-green-500">Enviar</button>
       </form>
-
     </section>
   )
 }
