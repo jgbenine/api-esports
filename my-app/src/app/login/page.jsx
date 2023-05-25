@@ -1,8 +1,10 @@
 'use client'
 import axios from "axios"
-import {useState } from "react"
+import { useState } from "react"
 export default function Login() {
   const [inputKey, setInput] = useState('')
+  const [infoLogin, setInfoLogin] = useState([''])
+
 
     async function handleSubmit(event) {
       event.preventDefault()
@@ -13,8 +15,8 @@ export default function Login() {
             "x-rapidapi-host": "v1.basketball.api-sports.io"
           }
         })
-        const dataFetch = await fetchResponse.data.response;
-        console.log(dataFetch)
+        const dataFetch = await fetchResponse.data.results;
+        setInfoLogin(dataFetch)
       } catch (error) {
         console.log(error)
       }
@@ -33,6 +35,8 @@ export default function Login() {
           value={inputKey}
           onChange={({ target }) => setInput(target.value)} />
         <button type="submit" className="bg-green-600 w-24 mt-1 rounded-sm hover:bg-green-500">Enviar</button>
+        {infoLogin === 0 ? (<p className="text-[0.7rem] text-red-600">Key Inválido</p>) : 
+          infoLogin === 1 ? (<p className="text-[0.7rem] text-green-500">Login efetuado com sucesso</p>) : (<p></p>)}
       </form>
     </section>
   )
