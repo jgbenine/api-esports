@@ -1,6 +1,5 @@
-'use client'
-import axios from 'axios'
 import { useState, useEffect } from 'react'
+import fetchDefault from '../axios/axiosConfig'
 
 function Countries() {
   const [dataCountries, setDataCountries] = useState([])
@@ -8,7 +7,7 @@ function Countries() {
   useEffect(() => {
     async function FetchCountries() {
       try {
-        const fetchResponse = await axios.get('https://v1.basketball.api-sports.io/countries', {
+        const fetchResponse = await fetchDefault('https://v1.basketball.api-sports.io/countries', {
           headers: {
             "x-rapidapi-key": "a3663050d10164fbaa3d5c0e5ff68f3a",
             "x-rapidapi-host": "v1.basketball.api-sports.io"
