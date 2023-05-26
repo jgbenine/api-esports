@@ -5,9 +5,11 @@ function Countries() {
   const [dataCountries, setDataCountries] = useState([])
   const [dataLeagues, setDataLeagues] = useState([])
   const [dataTeams, setDataTeams] = useState([])
+  const [dataSeasons, setDataSeasons] = useState([])
   const [valueCountry, setValueCountry] = useState('')
   const [valueLeague, setValueLeague] = useState('')
-  const [valueTeams, setValueTeams] = useState('')
+  const [valueTeam, setValueTeam] = useState('')
+  const [valueSeason, setValueSeason] = useState('')
 
   useEffect(() => {
     async function FetchCountries() {
@@ -89,8 +91,19 @@ function Countries() {
 
       {valueLeague ? (
         <div className="flex flex-col gap-1">
+          <label className="text-sm">Selecione uma temporada para visualizar os times:</label>
+          <select value={valueSeason} onChange={handleTeams} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
+            {dataSeasons.map((season) => (
+              <option className="text-black" key={season.id} value={season.id}>{season.name}</option>
+            ))}
+          </select>
+        </div>
+      ) : <p></p>}
+
+      {valueSeason ? (
+        <div className="flex flex-col gap-1">
           <label className="text-sm">Selecione um time dessa liga:</label>
-          <select value={valueTeams} onChange={handleTeams} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
+          <select value={valueTeam} onChange={handleTeams} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
             {dataTeams.map((team) => (
               <option className="text-black" key={team.id} value={team.id}>{team.name}</option>
             ))}
