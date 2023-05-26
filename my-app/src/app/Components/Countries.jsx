@@ -53,7 +53,7 @@ function Countries() {
     async function FetchSeasons(SeasonId) {
       try {
         const responseSeason = await fetchDefault('/seasons');
-        console.log(`fetchSeason:${responseSeason.data.response}`)
+        console.log(`fetchSeason:${responseSeason.data}`)
         setDataSeasons(responseSeason.data.response);
       } catch (error) {
         // Manipule erros da requisição
@@ -63,6 +63,10 @@ function Countries() {
     if (selectedLeague !== null) {
       FetchSeasons(selectedLeague);
     }
+  }
+
+  function handleSeason(event) {
+    console.log(event.target.value)
   }
 
 
@@ -86,6 +90,8 @@ function Countries() {
 
   return (
     <section className="flex flex-col gap-2">
+
+      { /* Component País*/}
       <div className="flex flex-col gap-1">
         <label className="text-sm">Selecione um Páis:</label>
         <select value={valueCountry} onChange={handleCountry} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
@@ -95,6 +101,7 @@ function Countries() {
         </select>
       </div>
 
+      { /* Component Liga*/}
       {valueCountry ? (
         <div className="flex flex-col gap-1">
           <label className="text-sm">Selecione um Liga:</label>
@@ -106,17 +113,19 @@ function Countries() {
         </div>
       ) : <p></p>}
 
+      { /* Component Ano*/}
       {valueLeague ? (
         <div className="flex flex-col gap-1">
           <label className="text-sm">Selecione uma temporada para visualizar os times:</label>
-          <select value={valueSeason} onChange={handleTeams} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
+          <select value={valueSeason} onChange={handleSeason} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
             {dataSeasons.map((season, index) => (
-              <option className="text-black" key={index} value={season.id}>{season.name}</option>
+              <option className="text-black" key={index} value={season.id}>{season}</option>
             ))}
           </select>
         </div>
       ) : <p></p>}
 
+      { /* Component Times*/}
       {valueSeason ? (
         <div className="flex flex-col gap-1">
           <label className="text-sm">Selecione um time dessa liga:</label>
