@@ -7,6 +7,7 @@ function Countries() {
   const [dataTeams, setDataTeams] = useState([])
   const [valueCountry, setValueCountry] = useState('')
   const [valueLeague, setValueLeague] = useState('')
+  const [valueTeams, setValueTeams] = useState('')
 
   useEffect(() => {
     async function FetchCountries() {
@@ -46,11 +47,23 @@ function Countries() {
     const selectedLeague = event.target.value;
     console.log(selectedLeague);
     setValueLeague(event.target.value)
-
-
-
-
+    
+    async function FetchTeams(leagueId){
+      try {
+        const responseTeams = await fetchDefault('/teams');
+        console.log(`fetchTeams:${responseTeams.data.response}`)
+        setDataTeams(responseTeams.data.response);
+      } catch (error) {
+          // Manipule erros da requisição
+          console.error(error);
+      }
+    }
+    if (selectedLeague !== null) {
+      FetchTeams(selectedLeague);
+    }
   }
+
+  function handleTeams(event){}
 
   return (
     <section className="flex flex-col gap-2">
@@ -77,7 +90,7 @@ function Countries() {
       {valueLeague ? (
         <div className="flex flex-col gap-1">
           <label className="text-sm">Selecione um time dessa liga:</label>
-          <select value={valueLeague} onChange={handleLeague} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
+          <select value={valueTeams} onChange={handleTeams} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
             {dataTeams.map((team) => (
               <option className="text-black" key={team.id} value={team.id}>{team.name}</option>
             ))}
