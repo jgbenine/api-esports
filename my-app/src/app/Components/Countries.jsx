@@ -49,23 +49,40 @@ function Countries() {
     const selectedLeague = event.target.value;
     console.log(selectedLeague);
     setValueLeague(event.target.value)
-    
-    async function FetchTeams(leagueId){
+
+    async function FetchSeasons(SeasonId) {
       try {
-        const responseTeams = await fetchDefault('/teams');
-        console.log(`fetchTeams:${responseTeams.data.response}`)
-        setDataTeams(responseTeams.data.response);
+        const responseSeason = await fetchDefault('/seasons');
+        console.log(`fetchSeason:${responseSeason.data.response}`)
+        setDataSeasons(responseSeason.data.response);
       } catch (error) {
-          // Manipule erros da requisição
-          console.error(error);
+        // Manipule erros da requisição
+        console.error(error);
       }
     }
     if (selectedLeague !== null) {
-      FetchTeams(selectedLeague);
+      FetchSeasons(selectedLeague);
     }
   }
 
-  function handleTeams(event){}
+
+
+
+  function handleTeams(event) {
+    // async function FetchTeams(leagueId){
+    //   try {
+    //     const responseTeams = await fetchDefault('/teams');
+    //     console.log(`fetchTeams:${responseTeams.data.response}`)
+    //     setDataTeams(responseTeams.data.response);
+    //   } catch (error) {
+    //       // Manipule erros da requisição
+    //       console.error(error);
+    //   }
+    // }
+    // if (selectedLeague !== null) {
+    //   FetchTeams(selectedLeague);
+    // }
+  }
 
   return (
     <section className="flex flex-col gap-2">
@@ -93,8 +110,8 @@ function Countries() {
         <div className="flex flex-col gap-1">
           <label className="text-sm">Selecione uma temporada para visualizar os times:</label>
           <select value={valueSeason} onChange={handleTeams} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
-            {dataSeasons.map((season) => (
-              <option className="text-black" key={season.id} value={season.id}>{season.name}</option>
+            {dataSeasons.map((season, index) => (
+              <option className="text-black" key={index} value={season.id}>{season.name}</option>
             ))}
           </select>
         </div>
