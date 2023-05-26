@@ -10,14 +10,10 @@ function Countries() {
   useEffect(() => {
     async function FetchCountries() {
       try {
-        const fetchResponse = await fetchDefault.get('/countries', {
-          headers: {
-            "x-rapidapi-key": "a3663050d10164fbaa3d5c0e5ff68f3a",
-            "x-rapidapi-host": "v1.baseball.api-sports.io"
-          }
-        })
-        const dataFetch = await fetchResponse.data.response;
+        const fetchCountriesData = await fetchDefault.get('/countries')
+        const dataFetch = await fetchCountriesData.data.response;
         setDataCountries(dataFetch)
+
       } catch (error) {
         console.log(error)
       }
@@ -25,31 +21,42 @@ function Countries() {
     FetchCountries()
   }, [])
 
-
   function handleCountry(event) {
     console.log(event.target.value)
     setValueCountry(event.target.value);
+    console.log(`value contry:${valueCountry}`)
+
+
     async function FetchLeagues() {
-      try {
-        const fetchResponse = await fetchDefault.get(`/leagues?country_id=${valueCountry}`, {
-          headers: {
-            "x-rapidapi-key": "a3663050d10164fbaa3d5c0e5ff68f3a",
-            "x-rapidapi-host": "v1.baseball.api-sports.io"
-          },
-        })
-        const dataFetch = await fetchResponse.data.response;
-        setDataLeagues(dataFetch)
-        console.log(dataFetch)
-      } catch (error) {
-        console.log(error)
-      }
+      fetchDefault(`/leagues?country_id=${valueCountry}`)
+      .then(function (responseLeague) {
+        setDataLeagues(responseLeague.data.response)
+        console.log(responseLeague.data.response);
+      })
+      .catch(function(error) {
+        // manipula erros da requisição
+        console.error(error);
+      })
     }
+
+  //  async  function antiga(){
+  //     try {
+  //       const fetchLeagueData = await fetchDefault.get(`/leagues`)
+  //       const dataFetchLeagues = await fetchLeagueData.data.response;
+  //       console.log(dataFetchLeagues)
+  //       setDataLeagues(dataFetchLeagues)
+        
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
     FetchLeagues()
   }
 
   function handleLeague(event){
+    console.log('action function')
     console.log(event.target.value)
-    setValueLeague(event.target.value)
+    // setValueLeague(event.target.value)
     // handleLeague();
   }
 
@@ -58,8 +65,8 @@ function Countries() {
       <div className="flex flex-col gap-1">
         <label className="text-sm">Selecione um Páis:</label>
         <select value={valueCountry} onChange={handleCountry} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
-          {dataCountries.map(country => (
-            <option key={country.id} value={country.id} >{country.name}</option>
+          {dataCountries.map((country, index) => (
+            <option className="text-black" key={index} value={country.id}>{country.name}</option>
           ))}
         </select>
       </div>
@@ -68,9 +75,9 @@ function Countries() {
         <div className="flex flex-col gap-1">
           <label className="text-sm">Selecione um Liga:</label>
           <select value={valueLeague} onChange={handleLeague} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
-            {dataLeagues.map(league => (
-              <option key={league.id} value={league.name}>{league.name}</option>
-            ))}
+          {dataLeagues.map((league) => (
+            <option className="text-black" key={league.id} value={league.id}>{league.name}teste</option>
+          ))}
           </select>
         </div>
       ) : <p></p>}
