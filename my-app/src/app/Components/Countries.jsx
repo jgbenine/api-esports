@@ -4,6 +4,7 @@ import fetchDefault from '../axios/axiosConfig'
 function Countries() {
   const [dataCountries, setDataCountries] = useState([])
   const [dataLeagues, setDataLeagues] = useState([])
+  const [dataTeams, setDataTeams] = useState([])
   const [valueCountry, setValueCountry] = useState('')
   const [valueLeague, setValueLeague] = useState('')
 
@@ -25,7 +26,7 @@ function Countries() {
     const selectedCountry = event.target.value;
     console.log(selectedCountry);
     setValueCountry(selectedCountry);
-  
+
     async function FetchLeagues(countryId) {
       try {
         const responseLeague = await fetchDefault(`/leagues?country_id=${countryId}`);
@@ -36,7 +37,6 @@ function Countries() {
         console.error(error);
       }
     }
-  
     if (selectedCountry !== null) {
       FetchLeagues(selectedCountry);
     }
@@ -63,7 +63,18 @@ function Countries() {
           <label className="text-sm">Selecione um Liga:</label>
           <select value={valueLeague} onChange={handleLeague} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
             {dataLeagues.map((league) => (
-              <option className="text-black" key={league.id} value={league.id}>{league.name}teste</option>
+              <option className="text-black" key={league.id} value={league.id}>{league.name}</option>
+            ))}
+          </select>
+        </div>
+      ) : <p></p>}
+
+      {valueLeague ? (
+        <div className="flex flex-col gap-1">
+          <label className="text-sm">Selecione um time dessa liga:</label>
+          <select value={valueLeague} onChange={handleLeague} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
+            {dataTeams.map((team) => (
+              <option className="text-black" key={team.id} value={team.id}>{team.name}</option>
             ))}
           </select>
         </div>
