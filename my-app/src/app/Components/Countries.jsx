@@ -42,9 +42,14 @@ function Countries() {
     }
   }
 
-  function handleLeague(event) {
-    console.log('evento league')
+  async function handleLeague(event) {
+    const selectedLeague = event.target.value;
+    console.log(selectedLeague);
     setValueLeague(event.target.value)
+
+
+
+
   }
 
   return (
