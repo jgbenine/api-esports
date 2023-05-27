@@ -27,14 +27,14 @@ function Countries() {
 
   async function handleCountry(event) {
     const selectedCountry = event.target.value;
-    console.log(selectedCountry);
+    // console.log(selectedCountry);
     setValueCountry(selectedCountry);
 
     async function FetchLeagues(countryId) {
       try {
         const responseLeague = await fetchDefault(`/leagues?country_id=${countryId}`);
         setDataLeagues(responseLeague.data.response);
-        console.log(responseLeague.data.response);
+        // console.log(responseLeague.data.response);
       } catch (error) {
         // Manipule erros da requisição
         console.error(error);
@@ -47,13 +47,13 @@ function Countries() {
 
   async function handleLeague(event) {
     const selectedLeague = event.target.value;
-    console.log(selectedLeague);
+    // console.log(selectedLeague);
     setValueLeague(selectedLeague)
 
     async function FetchSeasons(SeasonId) {
       try {
         const responseSeason = await fetchDefault('/seasons');
-        console.log(`fetchSeason:${responseSeason.data}`)
+        // console.log(`fetchSeason:${responseSeason.data}`)
         setDataSeasons(responseSeason.data.response);
       } catch (error) {
         // Manipule erros da requisição
@@ -66,25 +66,23 @@ function Countries() {
   }
 
   function handleSeason(event) {
-    const selectedTeam = event.target.value
-    console.log(selectedTeam)
-    setValueSeason(selectedTeam)
+    const selectedSeason = event.target.value
+    console.log(selectedSeason)
+    setValueSeason(selectedSeason)
 
-    async function FetchTeams(leagueId) {
+    async function FetchTeams(teamId) {
       try {
-        const responseTeams = await fetchDefault('/teams');
-        console.log(`fetchTeams:${responseTeams.data.response}`)
+        const responseTeams = await fetchDefault(`/teams?league=${valueLeague}&season=${selectedSeason}`);
         setDataTeams(responseTeams.data.response);
       } catch (error) {
         // Manipule erros da requisição
         console.error(error);
       }
     }
-    if (selectedTeam !== null) {
-      FetchTeams(selectedTeam);
+    if (selectedSeason !== null) {
+      FetchTeams(selectedSeason);
     }
   }
-
 
   function handleTeams(event) {
     console.log(event.target.value)
