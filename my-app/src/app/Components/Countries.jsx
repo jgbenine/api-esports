@@ -48,7 +48,7 @@ function Countries() {
   async function handleLeague(event) {
     const selectedLeague = event.target.value;
     console.log(selectedLeague);
-    setValueLeague(event.target.value)
+    setValueLeague(selectedLeague)
 
     async function FetchSeasons(SeasonId) {
       try {
@@ -66,15 +66,29 @@ function Countries() {
   }
 
   function handleSeason(event) {
-    console.log(event.target.value)
-    setValueSeason(event.target.value)
+    const selectedTeam = event.target.value
+    console.log(selectedTeam)
+    setValueSeason(selectedTeam)
+
+    async function FetchTeams(leagueId) {
+      try {
+        const responseTeams = await fetchDefault('/teams');
+        console.log(`fetchTeams:${responseTeams.data.response}`)
+        setDataTeams(responseTeams.data.response);
+      } catch (error) {
+        // Manipule erros da requisição
+        console.error(error);
+      }
+    }
+    if (selectedTeam !== null) {
+      FetchTeams(selectedTeam);
+    }
   }
 
 
-
-
   function handleTeams(event) {
-
+    console.log(event.target.value)
+    setValueTeam(event.target.value)
   }
 
   return (
