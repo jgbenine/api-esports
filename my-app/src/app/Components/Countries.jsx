@@ -67,25 +67,14 @@ function Countries() {
 
   function handleSeason(event) {
     console.log(event.target.value)
+    setValueSeason(event.target.value)
   }
 
 
 
 
   function handleTeams(event) {
-    // async function FetchTeams(leagueId){
-    //   try {
-    //     const responseTeams = await fetchDefault('/teams');
-    //     console.log(`fetchTeams:${responseTeams.data.response}`)
-    //     setDataTeams(responseTeams.data.response);
-    //   } catch (error) {
-    //       // Manipule erros da requisição
-    //       console.error(error);
-    //   }
-    // }
-    // if (selectedLeague !== null) {
-    //   FetchTeams(selectedLeague);
-    // }
+
   }
 
   return (
@@ -119,7 +108,7 @@ function Countries() {
           <label className="text-sm">Selecione uma temporada para visualizar os times:</label>
           <select value={valueSeason} onChange={handleSeason} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
             {dataSeasons.map((season, index) => (
-              <option className="text-black" key={index} value={season.id}>{season}</option>
+              <option className="text-black" key={index} value={season.value}>{season}</option>
             ))}
           </select>
         </div>
