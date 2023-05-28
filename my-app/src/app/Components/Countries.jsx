@@ -32,9 +32,9 @@ function Countries() {
 
     async function FetchLeagues(countryId) {
       try {
-        const responseLeague = await fetchDefault(`/leagues?country_id=${countryId}`);
+        const responseLeague = await fetchDefault(`/leagues?country=${countryId}`);
         setDataLeagues(responseLeague.data.response);
-        // console.log(responseLeague.data.response);
+        console.log(responseLeague.data.response);
       } catch (error) {
         // Manipule erros da requisição
         console.error(error);
@@ -107,8 +107,8 @@ function Countries() {
         <div className="flex flex-col gap-1">
           <label className="text-sm">Selecione um Liga:</label>
           <select value={valueLeague} onChange={handleLeague} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
-            {dataLeagues.map((league) => (
-              <option className="text-black" key={league.id} value={league.id}>{league.name}</option>
+            {dataLeagues.map((league, index) => (
+              <option className="text-black" key={index} value={league.id}>{league.league.name}</option>
             ))}
           </select>
         </div>
