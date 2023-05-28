@@ -27,14 +27,13 @@ function Countries() {
 
   async function handleCountry(event) {
     const selectedCountry = event.target.value;
-    // console.log(selectedCountry);
     setValueCountry(selectedCountry);
+    // console.log(selectedCountry);
 
     async function FetchLeagues(countryId) {
       try {
         const responseLeague = await fetchDefault(`/leagues?country=${countryId}`);
         setDataLeagues(responseLeague.data.response);
-        console.log(responseLeague.data.response);
       } catch (error) {
         // Manipule erros da requisição
         console.error(error);
@@ -47,13 +46,10 @@ function Countries() {
 
   async function handleLeague(event) {
     const selectedLeague = event.target.value;
-    // console.log(selectedLeague);
     setValueLeague(selectedLeague)
-
     async function FetchSeasons(SeasonId) {
       try {
-        const responseSeason = await fetchDefault('/seasons');
-        // console.log(`fetchSeason:${responseSeason.data}`)
+        const responseSeason = await fetchDefault('/leagues/seasons');
         setDataSeasons(responseSeason.data.response);
       } catch (error) {
         // Manipule erros da requisição
@@ -67,12 +63,10 @@ function Countries() {
 
   function handleSeason(event) {
     const selectedSeason = event.target.value
-    console.log(selectedSeason)
     setValueSeason(selectedSeason)
-
     async function FetchTeams(teamId) {
       try {
-        const responseTeams = await fetchDefault(`/teams?league=${valueLeague}&season=${selectedSeason}`);
+        const responseTeams = await fetchDefault(`/teams?league=${valueLeague}`);
         setDataTeams(responseTeams.data.response);
       } catch (error) {
         // Manipule erros da requisição
@@ -108,7 +102,7 @@ function Countries() {
           <label className="text-sm">Selecione um Liga:</label>
           <select value={valueLeague} onChange={handleLeague} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
             {dataLeagues.map((league, index) => (
-              <option className="text-black" key={index} value={league.id}>{league.league.name}</option>
+              <option className="text-black" key={index} value={league.league.id}>{league.league.name}</option>
             ))}
           </select>
         </div>
@@ -131,8 +125,8 @@ function Countries() {
         <div className="flex flex-col gap-1">
           <label className="text-sm">Selecione um time dessa liga:</label>
           <select value={valueTeam} onChange={handleTeams} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
-            {dataTeams.map((team) => (
-              <option className="text-black" key={team.id} value={team.id}>{team.name}</option>
+            {dataTeams.map((team, index) => (
+              <option className="text-black" key={index} value={team.id}>{team.team.name}</option>
             ))}
           </select>
         </div>
