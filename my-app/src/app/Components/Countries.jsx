@@ -67,12 +67,10 @@ function Countries() {
     const valueSeason = event.target.value
     const selectedSeason = parseInt(valueSeason)
     setValueSeason(selectedSeason)
-    console.log(selectedSeason)
     async function FetchTeams(teamId) {
       try {
         const responseTeams = await fetchDefault(`/teams?league=${valueLeague}&season=${valueSeason}`);
         setDataTeams(responseTeams.data.response);
-        console.log(responseTeams)
       } catch (error) {
         // Manipule erros da requisição
         console.error(error);
@@ -90,9 +88,8 @@ function Countries() {
 
   return (
     <section className="flex flex-col gap-2">
-
       { /* Component País*/}
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 my-3">
         <label className="text-sm">Selecione um Páis:</label>
         <select value={valueCountry} onChange={handleCountry} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
           {dataCountries.map((country, index) => (
@@ -103,7 +100,7 @@ function Countries() {
 
       { /* Component Liga*/}
       {valueCountry ? (
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 my-3">
           <label className="text-sm">Selecione um Liga:</label>
           <select value={valueLeague} onChange={handleLeague} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
             {dataLeagues.map((league, index) => (
@@ -115,7 +112,7 @@ function Countries() {
 
       { /* Component Ano*/}
       {valueLeague ? (
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 my-3">
           <label className="text-sm">Selecione uma temporada para visualizar os times:</label>
           <select value={valueSeason} onChange={handleSeason} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
             {dataSeasons.map((season, index) => (
@@ -127,7 +124,7 @@ function Countries() {
 
       { /* Component Times*/}
       {valueSeason ? (
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 my-3">
           <label className="text-sm">Selecione um time dessa liga:</label>
           <select value={valueTeam} onChange={handleTeams} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900">
             {dataTeams.map((team, index) => (
