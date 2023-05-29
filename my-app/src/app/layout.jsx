@@ -1,7 +1,7 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'Api-esports',
+  title: 'e-Football - Meu time',
   description: 'Manipulando api-esports com React | Nextjs',
 }
 
