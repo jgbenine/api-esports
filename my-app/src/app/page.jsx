@@ -1,23 +1,37 @@
 'use client'
 import { useState } from "react"
 import fetchDefault from "./axios/axiosConfig"
-import Countries from "./Components/Countries"
 import SelectFetch from "./Components/SelectFetch"
 import Label from "./Components/Label"
 
 export default function Home() {
   // const [inputKey, setInput] = useState('')
   // const [infoLogin, setInfoLogin] = useState([''])
-  const [selectedOption, setSelectedOption] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedLeague, setSelectedLeague] = useState('');
+  const [selectedSeason, setSelectedSeason] = useState('');
 
   const mapFunction = (data) => ({
     id: data.id,
     label: data.name,
   });
 
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
+  const mapFunctionSeasons = (data) => ({
+    id: data,
+    label: `${data}-${data + 1}`,
+  });
+
+  const handleCountry = (event) => {
+    setSelectedCountry(event.target.value);
   };
+
+  const handleLeague = (event) => {
+    setSelectedLeague(event.target.value)
+  }
+
+  const handleSeason = (event) => {
+    setSelectedLeague(event.target.value)
+  }
 
 
   // async function handleSubmit(event) {
@@ -55,7 +69,7 @@ export default function Home() {
             : (<p></p>)}
       </form> */}
 
-      <div className="flex flex-col gap-2 text-zinc-50">
+      <div className="flex flex-col gap-">
         <Label
           htmlFor="countrySelect"
           text="Selecione um País"
@@ -63,11 +77,39 @@ export default function Home() {
         <SelectFetch
           url="/countries"
           mapFunction={mapFunction}
-          value={selectedOption}
-          onChange={handleSelectChange}
+          value={selectedCountry}
+          onChange={handleCountry}
         />
-        <p>Option select: {selectedOption}</p>
       </div >
+
+      {selectedCountry ? (
+        <div className="flex flex-col gap-">
+          <Label
+            htmlFor="countrySelect"
+            text="Selecione uma Liga"
+          />
+          <SelectFetch
+            url={`/leagues?country_id=${selectedCountry}`}
+            mapFunction={mapFunction}
+            value={selectedLeague}
+            onChange={handleLeague}
+          />
+        </div>) : <p></p>}
+
+        {selectedLeague && selectedCountry ? (
+        <div className="flex flex-col gap-">
+          <Label
+            htmlFor="countrySelect"
+            text="Selecione uma temporada:"
+          />
+          <SelectFetch
+            url={`/seasons`}
+            mapFunction={mapFunctionSeasons}
+            value={selectedSeason}
+            onChange={handleSeason}
+          />
+        </div>) : <p></p>}
+
     </section>
 
   )
