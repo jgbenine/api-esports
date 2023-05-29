@@ -45,8 +45,10 @@ function Countries() {
   }
 
   async function handleLeague(event) {
-    const selectedLeague = event.target.value;
+    const valueLeague = event.target.value;
+    const selectedLeague = parseInt(valueLeague)
     setValueLeague(selectedLeague)
+    console.log(selectedLeague)
     async function FetchSeasons(SeasonId) {
       try {
         const responseSeason = await fetchDefault('/leagues/seasons');
@@ -62,12 +64,15 @@ function Countries() {
   }
 
   function handleSeason(event) {
-    const selectedSeason = event.target.value
+    const valueSeason = event.target.value
+    const selectedSeason = parseInt(valueSeason)
     setValueSeason(selectedSeason)
+    console.log(selectedSeason)
     async function FetchTeams(teamId) {
       try {
-        const responseTeams = await fetchDefault(`/teams?league=${valueLeague}`);
+        const responseTeams = await fetchDefault(`/teams?league=${valueLeague}&season=${valueSeason}`);
         setDataTeams(responseTeams.data.response);
+        console.log(responseTeams)
       } catch (error) {
         // Manipule erros da requisição
         console.error(error);
