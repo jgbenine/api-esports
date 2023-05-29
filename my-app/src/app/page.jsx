@@ -3,6 +3,7 @@ import { useState } from "react"
 import fetchDefault from "./axios/axiosConfig"
 import Countries from "./Components/Countries"
 import SelectFetch from "./Components/SelectFetch"
+import Label from "./Components/Label"
 
 export default function Home() {
   // const [inputKey, setInput] = useState('')
@@ -54,13 +55,16 @@ export default function Home() {
             : (<p></p>)}
       </form> */}
 
-      <div className="flex flex-col w-60">
-        <label>Selecione Pais</label>
+      <div className="flex flex-col gap-2 text-zinc-50">
+        <Label
+          htmlFor="countrySelect"
+          text="Selecione um País"
+        />
         <SelectFetch
-            url="/countries"
-            mapFunction={mapFunction}
-            value={selectedOption}
-            onChange={handleSelectChange}
+          url="/countries"
+          mapFunction={mapFunction}
+          value={selectedOption}
+          onChange={handleSelectChange}
         />
         <p>Option select: {selectedOption}</p>
       </div >
