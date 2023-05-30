@@ -9,11 +9,11 @@ function SelectFetch({ url, mapFunction, value, onChange, idSelect }) {
       try {
         const response = await fetchDefault(url);
         const data = response.data.response;
+        console.log(data)
         // Verificar se data é um array
         if (Array.isArray(data)) {
           const mappedOptions = data.map(mapFunction);
           setOptions(mappedOptions);
-          // console.log(data)
         } else {
           console.error('Essa estrtura não é um array permitido map');
         }
@@ -22,7 +22,7 @@ function SelectFetch({ url, mapFunction, value, onChange, idSelect }) {
       }
     }
     fetchData();
-  }, [url, mapFunction])
+  }, [url])
 
   return (
       <select id={idSelect} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900" value={value} onChange={onChange}>

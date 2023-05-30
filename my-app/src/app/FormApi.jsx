@@ -1,16 +1,28 @@
 import { useState } from 'react'
 import SelectFetch from "./Components/SelectFetch"
 import Label from "./Components/Label"
+import fetchDefault from './axios/axiosConfig';
 
 function FormApi() {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedLeague, setSelectedLeague] = useState('');
   const [selectedSeason, setSelectedSeason] = useState('');
   const [selectedTeam, setSelectedTeam] = useState('');
+  const [selectedPlayers, setSelectedPlayers] = useState('');
 
   const mapFunction = (data) => ({
     id: data.id,
     label: data.name,
+  });
+
+  const mapFunctionLeague = (data) => ({
+    id: data.league.id,
+    label: data.league.name,
+  });
+
+  const mapFunctionTeams = (data) => ({
+    id: data.team.id,
+    label: data.team.name,
   });
 
   const mapFunctionSeasons = (data) => ({
@@ -20,10 +32,14 @@ function FormApi() {
 
   const handleCountry = (event) => {
     setSelectedCountry(event.target.value);
+    console.log(event.target.value)
   };
 
   const handleLeague = (event) => {
-    setSelectedLeague(event.target.value)
+    //Pegando indice do elemento selecionado para compor nova requisição de players.
+    const selectedIndex = event.target.selectedIndex;
+    const selectedLeagueId = event.target.options[selectedIndex].value;
+    setSelectedLeague(selectedLeagueId);
   }
 
   const handleSeason = (event) => {
@@ -31,8 +47,23 @@ function FormApi() {
   }
 
   const handleTeam = (event) => {
-    setSelectedTeam(event.target.value)
-    console.log(selectedTeam)
+    const selectedIndex = event.target.selectedIndex;
+    const selectedTeamId = event.target.options[selectedIndex].value;
+    setSelectedTeam(selectedTeamId);
+    console.log(selectedTeamId)
+
+    async function fetchPlayers(teamId){
+      try{
+        const responseFetch = await fetchDefault(`/players/squads`)
+        console.log(responseFetch.data.response)
+        // setSelectedPlayers(responseFetch.data)
+      }catch(error){
+        console.log(error)
+      }
+    }
+    if(selectedPlayers !== null){
+       fetchPlayers(selectedTeamId);
+    }
   }
 
   return (
@@ -59,8 +90,8 @@ function FormApi() {
           />
           <SelectFetch
             idSelect="leagueSelect"
-            url={`/leagues?country_id=${selectedCountry}`}
-            mapFunction={mapFunction}
+            url={`/leagues?country=${selectedCountry}`}
+            mapFunction={mapFunctionLeague}
             value={selectedLeague}
             onChange={handleLeague}
           />
@@ -74,7 +105,7 @@ function FormApi() {
           />
           <SelectFetch
             idSelect="seasonSelect"
-            url={`/seasons`}
+            url={`/leagues/seasons`}
             mapFunction={mapFunctionSeasons}
             value={selectedSeason}
             onChange={handleSeason}
@@ -91,7 +122,7 @@ function FormApi() {
           <SelectFetch
             idSelect="TeamSelect"
             url={`/teams?league=${selectedLeague}&season=${selectedSeason}`}
-            mapFunction={mapFunction}
+            mapFunction={mapFunctionTeams}
             value={selectedTeam}
             onChange={handleTeam}
           />
