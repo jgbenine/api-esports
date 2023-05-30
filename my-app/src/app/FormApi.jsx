@@ -54,7 +54,7 @@ function FormApi() {
 
     async function fetchPlayers(teamId){
       try{
-        const responseFetch = await fetchDefault(`/players/squads`)
+        const responseFetch = await fetchDefault(`/players/squads?team=${teamId}`)
         console.log(responseFetch.data.response)
         // setSelectedPlayers(responseFetch.data)
       }catch(error){
@@ -62,7 +62,7 @@ function FormApi() {
       }
     }
     if(selectedPlayers !== null){
-       fetchPlayers(selectedTeamId);
+      fetchPlayers(selectedTeamId)
     }
   }
 
