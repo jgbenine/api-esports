@@ -134,17 +134,26 @@ function FormApi() {
 
       <button onClick={clickPlayers}>Obter players</button>
       <div>
-        <ul>
+        <ul className="mt-3">
           {selectedPlayers.map((player, index) => (
             <li key={index}>
-              <p>Nome: {player.name}</p>
-              <ul>
+              {/* <p>Nome: {player.name}</p> */}
+              <ul className="grid grid-cols-5 gap-3">
                 {player.players.map((playerData, playerIndex) => (
-                  <li key={playerIndex}>
-                    <p>Nome: {playerData.name}</p>
-                    <p>Idade: {playerData.age}</p>
-                    <p>Numero: {playerData.number}</p>
-                    <p>Posição: {playerData.position}</p>
+                  console.log(player),
+                  <li key={playerIndex} className="border border-zinc-400 px-3 py-2 rounded-sm">
+                    <p className="text-sm px-2">
+                      <label className="text-zinc-300">Nome:</label> {' '}
+                      {playerData.name}
+                    </p>
+                    <p className="text-sm px-2">
+                      <label className="text-zinc-300">Idade:</label> {' '}
+                      {playerData.age}
+                    </p>
+                    <p className="text-sm px-2">
+                      <label className="text-zinc-300">Posição:</label> {' '}
+                      {playerData.position}
+                    </p>
                   </li>
                 ))}
               </ul>
