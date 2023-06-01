@@ -8,7 +8,7 @@ function FormApi() {
   const [selectedLeague, setSelectedLeague] = useState('');
   const [selectedSeason, setSelectedSeason] = useState('');
   const [selectedTeam, setSelectedTeam] = useState('');
-  const [selectedPlayers, setSelectedPlayers] = useState('');
+  const [selectedPlayers, setSelectedPlayers] = useState([]);
 
   const mapFunction = (data) => ({
     id: data.id,
@@ -51,24 +51,28 @@ function FormApi() {
     const selectedTeamId = event.target.options[selectedIndex].value;
     setSelectedTeam(selectedTeamId);
     console.log(selectedTeamId)
+  }
 
-    async function fetchPlayers(teamId){
-      try{
-        const responseFetch = await fetchDefault(`/players/squads?team=${teamId}`)
-        console.log(responseFetch.data.response)
-        // setSelectedPlayers(responseFetch.data)
-      }catch(error){
+  function clickPlayers() {
+    async function fetchPlayers(teamId) {
+      try {
+        const responseFetch = await fetchDefault(`/players/squads?team=127`)
+        const players = responseFetch.data.response;
+        console.log("players:" + players)
+        setSelectedPlayers(players)
+      } catch (error) {
         console.log(error)
       }
     }
-    if(selectedPlayers !== null){
-      fetchPlayers(selectedTeamId)
+    if (selectedPlayers !== null) {
+      fetchPlayers('127')
     }
+    console.log('ok')
   }
 
   return (
     <section>
-      <div className="flex flex-col gap-">
+      {/* <div className="flex flex-col gap-">
         <Label
           htmlFor="countrySelect"
           text="Selecione um País"
@@ -80,9 +84,9 @@ function FormApi() {
           value={selectedCountry}
           onChange={handleCountry}
         />
-      </div >
+      </div > */}
 
-      {selectedCountry ? (
+      {/* {selectedCountry ? (
         <div className="flex flex-col gap-">
           <Label
             htmlFor="leagueSelect"
@@ -95,9 +99,9 @@ function FormApi() {
             value={selectedLeague}
             onChange={handleLeague}
           />
-        </div>) : <p></p>}
+        </div>) : <p></p>} */}
 
-      {selectedLeague ? (
+      {/* {selectedLeague ? (
         <div className="flex flex-col gap-">
           <Label
             htmlFor="seasonSelect"
@@ -110,23 +114,44 @@ function FormApi() {
             value={selectedSeason}
             onChange={handleSeason}
           />
-        </div>) : <p></p>}
+        </div>) : <p></p>} */}
 
 
-      {selectedSeason ? (
-        <div className="flex flex-col gap-">
-          <Label
-            htmlFor="TeamSelect"
-            text="Selecione um time:"
-          />
-          <SelectFetch
-            idSelect="TeamSelect"
-            url={`/teams?league=${selectedLeague}&season=${selectedSeason}`}
-            mapFunction={mapFunctionTeams}
-            value={selectedTeam}
-            onChange={handleTeam}
-          />
-        </div>) : <p></p>}
+
+      <div className="flex flex-col gap-">
+        <Label
+          htmlFor="TeamSelect"
+          text="Selecione um time:"
+        />
+        <SelectFetch
+          idSelect="TeamSelect"
+          url={`/teams?league=73&season=13`}
+          mapFunction={mapFunctionTeams}
+          value={selectedTeam}
+          onChange={handleTeam}
+        />
+      </div>
+
+      <button onClick={clickPlayers}>Obter players</button>
+      <div>
+        <ul>
+          {selectedPlayers.map((player, index) => (
+            <li key={index}>
+              <p>Nome: {player.name}</p>
+              <ul>
+                {player.players.map((playerData, playerIndex) => (
+                  <li key={playerIndex}>
+                    <p>Nome: {playerData.name}</p>
+                    <p>Idade: {playerData.age}</p>
+                    <p>Numero: {playerData.number}</p>
+                    <p>Posição: {playerData.position}</p>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   )
 }
