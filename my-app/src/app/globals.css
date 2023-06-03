@@ -25,3 +25,23 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+
+.title-content{
+  font-size: 1.1rem;
+  padding: 10px 0px;
+  margin: 5px 0px;
+  position: relative;
+  max-width: 100%;
+}
+
+.title-content:after{
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    border-bottom: 1px solid yellow;
+    width: 100%;
+    max-width: 120px;
+    height: 1px;
+}

@@ -60,7 +60,7 @@ function FormApi() {
   // function clickPlayers() {
   //   async function fetchPlayers(teamId) {
   //     try {
-  //       const responseFetch = await fetchDefault(`/players/squads?team=127`)
+  //       const responseFetch = await fetchDefault(`/players/squads?team=${teamId}`)
   //       const players = responseFetch.data.response;
   //       console.log("players:" + players)
   //       setSelectedPlayers(players)
@@ -145,9 +145,6 @@ function FormApi() {
   }
 
 
-
-
-
   return (
     <section>
       {/* <div className="flex flex-col gap-">
@@ -211,8 +208,8 @@ function FormApi() {
       </div>
 
       {/* <button onClick={clickPlayers}>Obter players</button> */}
-      {/* <button onClick={getLineUp}>Obter LineUp</button> */}
-      {/* <button onClick={getGames}>Obter Jogos</button> */}
+      <button onClick={getLineUp}>Obter LineUp</button>
+      <button onClick={getGames}>Obter Jogos</button>
       <button onClick={getTimeGoals}>Obter Time Goals</button>
       {/* <div>
         <ul className="mt-3">
@@ -244,35 +241,22 @@ function FormApi() {
 
       <div>
         {lineupWithMaxPlayed ? (
-          <article>
-            <h1>Formação mais utilizada</h1>
-            <p>Formação: {lineupWithMaxPlayed.formation}</p>
-            <p>Jogos: {lineupWithMaxPlayed.played}</p>
+          <article className="w-[300px]">
+            <h1 className="title-content">Formação mais utilizada do time no campeonato</h1>
+            <p className="p-2 border border-zinc-600 text-left">Formação: {lineupWithMaxPlayed.formation}</p>
+            <p className="p-2 border border-zinc-600 text-left">Partidas com formação: {lineupWithMaxPlayed.played} partidas</p>
           </article>
         ) : null}
       </div>
 
       <div>
         {selectedGames?.played ? (
-          <article>
-            <h3>Estatísticas de partidas</h3>
-            <p>Total de partidas jogadas: {selectedGames.played.total}</p>
-            <p>Total de partidas ganhas: {selectedGames.wins.total}</p>
-            <p>Total de partidas empatadas: {selectedGames.draws.total}</p>
-            <p>Total de partidas perdidas: {selectedGames.loses.total}</p>
-          </article>
-        ) : null}
-      </div>
-
-
-      <div>
-        {selectedGames?.played ? (
-          <article>
-            <h3>Estatísticas de partidas</h3>
-            <p>Total de partidas jogadas: {selectedGames.played.total}</p>
-            <p>Total de partidas ganhas: {selectedGames.wins.total}</p>
-            <p>Total de partidas empatadas: {selectedGames.draws.total}</p>
-            <p>Total de partidas perdidas: {selectedGames.loses.total}</p>
+          <article className="w-[300px]">
+            <h3 className="title-content">Estatísticas de partidas</h3>
+            <p className="p-2 border border-zinc-600 text-left">Total de partidas jogadas: {selectedGames.played.total} partidas</p>
+            <p className="p-2 border border-zinc-600 text-left">Total de partidas ganhas: {selectedGames.wins.total} partidas</p>
+            <p className="p-2 border border-zinc-600 text-left">Total de partidas empatadas: {selectedGames.draws.total} partidas</p>
+            <p className="p-2 border border-zinc-600 text-left">Total de partidas perdidas: {selectedGames.loses.total} partidas</p>
           </article>
         ) : null}
       </div>
@@ -280,12 +264,12 @@ function FormApi() {
       <div>
         {selectedTimeGoals && (
           <article>
-            <h3 className="py-2">Estatísticas de gols por intervalo de tempo</h3>
+            <h3 className="title-content">Estatísticas de gols por tempo de jogo:</h3>
             {Object.entries(selectedTimeGoals).map(([interval, data]) => (
               <div key={interval} className="grid grid-cols-3 w-[600px]">
-                <p className="py-1">Intervalo: {interval}</p>
-                <p className="py-1">Total de gols: {data.total}</p>
-                <p className="py-1">Porcentagem: {data.percentage}</p>
+                <p className="p-2 border border-zinc-600 text-left">Intervalo: {interval} min</p>
+                <p className="p-2 border border-zinc-600 text-center">Total de gols: {data.total}</p>
+                <p className="p-2 border border-zinc-600 text-center">Porcentagem: {data.percentage}</p>
               </div>
             ))}
           </article>
