@@ -252,9 +252,8 @@ function FormApi() {
         ) : null}
       </div>
 
-
       <div>
-        {selectedGames?.played ?(
+        {selectedGames?.played ? (
           <article>
             <h3>Estatísticas de partidas</h3>
             <p>Total de partidas jogadas: {selectedGames.played.total}</p>
@@ -263,6 +262,34 @@ function FormApi() {
             <p>Total de partidas perdidas: {selectedGames.loses.total}</p>
           </article>
         ) : null}
+      </div>
+
+
+      <div>
+        {selectedGames?.played ? (
+          <article>
+            <h3>Estatísticas de partidas</h3>
+            <p>Total de partidas jogadas: {selectedGames.played.total}</p>
+            <p>Total de partidas ganhas: {selectedGames.wins.total}</p>
+            <p>Total de partidas empatadas: {selectedGames.draws.total}</p>
+            <p>Total de partidas perdidas: {selectedGames.loses.total}</p>
+          </article>
+        ) : null}
+      </div>
+
+      <div>
+        {selectedTimeGoals && (
+          <article>
+            <h3 className="py-2">Estatísticas de gols por intervalo de tempo</h3>
+            {Object.entries(selectedTimeGoals).map(([interval, data]) => (
+              <div key={interval} className="grid grid-cols-3 w-[600px]">
+                <p className="py-1">Intervalo: {interval}</p>
+                <p className="py-1">Total de gols: {data.total}</p>
+                <p className="py-1">Porcentagem: {data.percentage}</p>
+              </div>
+            ))}
+          </article>
+        )}
       </div>
 
 
