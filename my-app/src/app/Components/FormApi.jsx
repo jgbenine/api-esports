@@ -11,6 +11,7 @@ function FormApi() {
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [selectedLineUp, setselectedLineUp] = useState([]);
   const [selectedGames, setselectedGames] = useState([]);
+  const [selectedTimeGoals, setselectedTimeGoals] = useState([]);
 
   const mapFunction = (data) => ({
     id: data.id,
@@ -126,6 +127,27 @@ function FormApi() {
   }
 
 
+  function getTimeGoals() {
+    console.log('get TimeGoals')
+    async function fetchTimeGoals(teamId) {
+      try {
+        const responseFetch = await fetchDefault(`/teams/statistics?season=2022&team=127&league=73`)
+        const timeGoals = responseFetch.data.response.goals.against.minute;
+        console.log(timeGoals)
+        setselectedTimeGoals(timeGoals)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    if (selectedTimeGoals !== null) {
+      fetchTimeGoals('127')
+    }
+  }
+
+
+
+
+
   return (
     <section>
       {/* <div className="flex flex-col gap-">
@@ -190,7 +212,8 @@ function FormApi() {
 
       {/* <button onClick={clickPlayers}>Obter players</button> */}
       {/* <button onClick={getLineUp}>Obter LineUp</button> */}
-      <button onClick={getGames}>Obter Jogos</button>
+      {/* <button onClick={getGames}>Obter Jogos</button> */}
+      <button onClick={getTimeGoals}>Obter Time Goals</button>
       {/* <div>
         <ul className="mt-3">
           {selectedPlayers.map((player, index) => (
