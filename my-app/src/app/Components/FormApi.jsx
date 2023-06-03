@@ -78,7 +78,6 @@ function FormApi() {
       try {
         const responseFetch = await fetchDefault(`/teams/statistics?season=2022&team=127&league=73`)
         const lineUps = responseFetch.data.response.lineups;
-        console.log(lineUps)
         setselectedLineUp(lineUps)
       } catch (error) {
         console.log(error)
@@ -88,6 +87,23 @@ function FormApi() {
       fetchLineUps('127')
     }
   }
+
+
+  function getLineupWithMaxPlayed() {
+    let maxPlayed = 0;
+    let lineupWithMaxPlayed = null;
+
+    for (let i = 0; i < selectedLineUp.length; i++) {
+      const lineup = selectedLineUp[i];
+      if (lineup.played > maxPlayed) {
+        maxPlayed = lineup.played;
+        lineupWithMaxPlayed = lineup;
+      }
+    }
+
+    return lineupWithMaxPlayed;
+  }
+  const lineupWithMaxPlayed = getLineupWithMaxPlayed();
 
   return (
     <section>
@@ -180,6 +196,17 @@ function FormApi() {
           ))}
         </ul>
       </div> */}
+
+      <div>
+        {lineupWithMaxPlayed ? (
+          <div>
+            <h1>Formação mais utilizada</h1>
+            <p>Formação: {lineupWithMaxPlayed.formation}</p>
+            <p>Jogos: {lineupWithMaxPlayed.played}</p>
+          </div>
+        ) : null}
+      </div>
+
     </section>
   )
 }
