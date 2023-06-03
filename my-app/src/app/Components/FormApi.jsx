@@ -10,6 +10,7 @@ function FormApi() {
   const [selectedTeam, setSelectedTeam] = useState('');
   const [selectedPlayers, setSelectedPlayers] = useState([]);
   const [selectedLineUp, setselectedLineUp] = useState([]);
+  const [selectedGames, setselectedGames] = useState([]);
 
   const mapFunction = (data) => ({
     id: data.id,
@@ -72,7 +73,7 @@ function FormApi() {
   //   console.log('ok')
   // }
 
-
+  /**LINE UP INFO */
   function getLineUp() {
     async function fetchLineUps(teamId) {
       try {
@@ -104,6 +105,26 @@ function FormApi() {
     return lineupWithMaxPlayed;
   }
   const lineupWithMaxPlayed = getLineupWithMaxPlayed();
+
+
+  //INFO JOGOS
+  function getGames() {
+    console.log('get Games')
+    async function fetchGames(teamId) {
+      try {
+        const responseFetch = await fetchDefault(`/teams/statistics?season=2022&team=127&league=73`)
+        const games = responseFetch.data.response.fixtures;
+        console.log(games)
+        setselectedGames(games)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    if (selectedGames !== null) {
+      fetchGames('127')
+    }
+  }
+
 
   return (
     <section>
@@ -168,7 +189,8 @@ function FormApi() {
       </div>
 
       {/* <button onClick={clickPlayers}>Obter players</button> */}
-      <button onClick={getLineUp}>Obter LineUp</button>
+      {/* <button onClick={getLineUp}>Obter LineUp</button> */}
+      <button onClick={getGames}>Obter Jogos</button>
       {/* <div>
         <ul className="mt-3">
           {selectedPlayers.map((player, index) => (
