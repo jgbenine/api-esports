@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import SelectFetch from "./SelectFetch"
 import Label from "./Label"
 import fetchDefault from '../axios/axiosConfig';
+import Button from './Button';
 
 function FormApi() {
   const [selectedCountry, setSelectedCountry] = useState('');
@@ -210,6 +211,7 @@ function FormApi() {
       <div>
         {selectedCountry && selectedLeague && selectedSeason && selectedTeam !== null ? (
           <div>
+            <Button onClick={getLineUp} textView='Melhor formação' />
             <button onClick={clickPlayers}>Obter players</button>
             <button onClick={getLineUp}>Obter LineUp</button>
             <button onClick={getGames}>Obter Jogos</button>
