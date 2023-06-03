@@ -221,13 +221,28 @@ function FormApi() {
 
       <div>
         {lineupWithMaxPlayed ? (
-          <div>
+          <article>
             <h1>Formação mais utilizada</h1>
             <p>Formação: {lineupWithMaxPlayed.formation}</p>
             <p>Jogos: {lineupWithMaxPlayed.played}</p>
-          </div>
+          </article>
         ) : null}
       </div>
+
+
+      <div>
+        {selectedGames?.played ?(
+          <article>
+            <h3>Estatísticas de partidas</h3>
+            <p>Total de partidas jogadas: {selectedGames.played.total}</p>
+            <p>Total de partidas ganhas: {selectedGames.wins.total}</p>
+            <p>Total de partidas empatadas: {selectedGames.draws.total}</p>
+            <p>Total de partidas perdidas: {selectedGames.loses.total}</p>
+          </article>
+        ) : null}
+      </div>
+
+
 
     </section>
   )
