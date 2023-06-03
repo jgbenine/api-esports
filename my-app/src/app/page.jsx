@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react"
 import fetchDefault from "./axios/axiosConfig"
-import FormApi from "./formApi"
+import FormApi from "./Components/FormApi"
 
 export default function Home() {
   const [inputKey, setInput] = useState('')

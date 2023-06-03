@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import SelectFetch from "./Components/SelectFetch"
-import Label from "./Components/Label"
-import fetchDefault from './axios/axiosConfig';
+import { useEffect, useState } from 'react'
+import SelectFetch from "./SelectFetch"
+import Label from "./Label"
+import fetchDefault from '../axios/axiosConfig';
 
 function FormApi() {
   const [selectedCountry, setSelectedCountry] = useState('');
@@ -9,6 +9,7 @@ function FormApi() {
   const [selectedSeason, setSelectedSeason] = useState('');
   const [selectedTeam, setSelectedTeam] = useState('');
   const [selectedPlayers, setSelectedPlayers] = useState([]);
+  const [selectedLineUp, setselectedLineUp] = useState([]);
 
   const mapFunction = (data) => ({
     id: data.id,
@@ -53,21 +54,39 @@ function FormApi() {
     console.log(selectedTeamId)
   }
 
-  function clickPlayers() {
-    async function fetchPlayers(teamId) {
+  //OBTER PLAYERS FETCH
+  // function clickPlayers() {
+  //   async function fetchPlayers(teamId) {
+  //     try {
+  //       const responseFetch = await fetchDefault(`/players/squads?team=127`)
+  //       const players = responseFetch.data.response;
+  //       console.log("players:" + players)
+  //       setSelectedPlayers(players)
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  //   if (selectedPlayers !== null) {
+  //     fetchPlayers('127')
+  //   }
+  //   console.log('ok')
+  // }
+
+
+  function getLineUp() {
+    async function fetchLineUps(teamId) {
       try {
-        const responseFetch = await fetchDefault(`/players/squads?team=127`)
-        const players = responseFetch.data.response;
-        console.log("players:" + players)
-        setSelectedPlayers(players)
+        const responseFetch = await fetchDefault(`/teams/statistics?season=2022&team=127&league=73`)
+        const lineUps = responseFetch.data.response.lineups;
+        console.log(lineUps)
+        setselectedLineUp(lineUps)
       } catch (error) {
         console.log(error)
       }
     }
-    if (selectedPlayers !== null) {
-      fetchPlayers('127')
+    if (selectedLineUp !== null) {
+      fetchLineUps('127')
     }
-    console.log('ok')
   }
 
   return (
@@ -132,12 +151,12 @@ function FormApi() {
         />
       </div>
 
-      <button onClick={clickPlayers}>Obter players</button>
-      <div>
+      {/* <button onClick={clickPlayers}>Obter players</button> */}
+      <button onClick={getLineUp}>Obter LineUp</button>
+      {/* <div>
         <ul className="mt-3">
           {selectedPlayers.map((player, index) => (
             <li key={index}>
-              {/* <p>Nome: {player.name}</p> */}
               <ul className="grid grid-cols-5 gap-3">
                 {player.players.map((playerData, playerIndex) => (
                   console.log(player),
@@ -160,7 +179,7 @@ function FormApi() {
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
     </section>
   )
 }
