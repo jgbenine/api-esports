@@ -6,6 +6,7 @@ import FormApi from "./Components/FormApi"
 export default function Home() {
   const [inputKey, setInput] = useState('')
   const [infoLogin, setInfoLogin] = useState([''])
+
   async function handleSubmit(event) {
     event.preventDefault()
     try {
@@ -37,12 +38,11 @@ export default function Home() {
           <button type="submit" className="bg-green-600 w-24 mt-1 rounded-sm hover:bg-green-500">Acessar</button>
         </div>
         {infoLogin === 0 ? (<p className="text-[0.7rem] text-red-600">Key Inválido</p>) :
-          infoLogin === 1 ? (<p>Autenticação realizada</p>)
-            : (<p></p>)}
+          infoLogin === 1 ? (<p></p>)
+          : (<p></p>)}
 
-        <FormApi />
       </form>
-
+      <FormApi />
 
     </section>
 

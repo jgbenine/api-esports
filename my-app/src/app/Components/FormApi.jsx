@@ -13,6 +13,7 @@ function FormApi() {
   const [selectedLineUp, setselectedLineUp] = useState([]);
   const [selectedGames, setselectedGames] = useState([]);
   const [selectedTimeGoals, setselectedTimeGoals] = useState([]);
+  const [selectedEstatitic, setSelectedEstatitics] = useState(null);
 
   const mapFunction = (data) => ({
     id: data.id,
@@ -54,16 +55,14 @@ function FormApi() {
     const selectedIndex = event.target.selectedIndex;
     const selectedTeamId = event.target.options[selectedIndex].value;
     setSelectedTeam(selectedTeamId);
-    console.log(selectedTeamId)
   }
 
   //OBTER PLAYERS FETCH
-  function clickPlayers() {
+  function getPlayers() {
     async function fetchPlayers(teamId) {
       try {
         const responseFetch = await fetchDefault(`/players/squads?team=${teamId}`)
         const players = responseFetch.data.response;
-        console.log("players:" + players)
         setSelectedPlayers(players)
       } catch (error) {
         console.log(error)
@@ -72,7 +71,7 @@ function FormApi() {
     if (selectedPlayers !== null) {
       fetchPlayers(selectedTeam)
     }
-    console.log('ok')
+    setSelectedEstatitics('players')
   }
 
   /**LINE UP INFO */
@@ -89,6 +88,7 @@ function FormApi() {
     if (selectedLineUp !== null) {
       fetchLineUps(selectedSeason, selectedTeam, selectedLeague)
     }
+    setSelectedEstatitics('lineup')
   }
 
 
@@ -116,7 +116,6 @@ function FormApi() {
       try {
         const responseFetch = await fetchDefault(`/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`)
         const games = responseFetch.data.response.fixtures;
-        console.log(games)
         setselectedGames(games)
       } catch (error) {
         console.log(error)
@@ -125,6 +124,7 @@ function FormApi() {
     if (selectedGames !== null) {
       fetchGames(selectedSeason, selectedTeam, selectedLeague)
     }
+    setSelectedEstatitics('partidas')
   }
 
 
@@ -134,7 +134,6 @@ function FormApi() {
       try {
         const responseFetch = await fetchDefault(`/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`)
         const timeGoals = responseFetch.data.response.goals.against.minute;
-        console.log(timeGoals)
         setselectedTimeGoals(timeGoals)
       } catch (error) {
         console.log(error)
@@ -143,6 +142,7 @@ function FormApi() {
     if (selectedTimeGoals !== null) {
       fetchTimeGoals(selectedSeason, selectedTeam, selectedLeague)
     }
+    setSelectedEstatitics('tempoGol')
   }
 
 
@@ -210,12 +210,11 @@ function FormApi() {
 
       <div>
         {selectedCountry && selectedLeague && selectedSeason && selectedTeam !== null ? (
-          <div>
-            <Button onClick={getLineUp} textView='Melhor formação' />
-            <button onClick={clickPlayers}>Obter players</button>
-            <button onClick={getLineUp}>Obter LineUp</button>
-            <button onClick={getGames}>Obter Jogos</button>
-            <button onClick={getTimeGoals}>Obter Time Goals</button>
+          <div className="flex gap-2 mt-2">
+            <Button onClick={getLineUp} textView='Formação mais utilizada' />
+            <Button onClick={getPlayers} textView='Jogadores' />
+            <Button onClick={getGames} textView='Estásticas dos jogos' />
+            <Button onClick={getTimeGoals} textView='Gols por tempo de jogo' />
           </div>
         ) : (
           <p className="text-sm text-zinc-500 py-2">Informe todos os itens para realizar ações</p>
@@ -223,36 +222,38 @@ function FormApi() {
 
       </div>
 
-      <div>
-        <ul className="mt-3">
-          {selectedPlayers.map((player, index) => (
-            <li key={index}>
-              <ul className="grid grid-cols-5 gap-3">
-                {player.players.map((playerData, playerIndex) => (
-                  console.log(player),
-                  <li key={playerIndex} className="border border-zinc-400 px-3 py-2 rounded-sm">
-                    <p className="text-sm px-2">
-                      <label className="text-zinc-300">Nome:</label> {' '}
-                      {playerData.name}
-                    </p>
-                    <p className="text-sm px-2">
-                      <label className="text-zinc-300">Idade:</label> {' '}
-                      {playerData.age}
-                    </p>
-                    <p className="text-sm px-2">
-                      <label className="text-zinc-300">Posição:</label> {' '}
-                      {playerData.position}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-      </div>
+
+      {selectedEstatitic === 'players' &&
+        <div>
+          <h1 className="title-content">Todos os Jogadores da temporada:</h1>
+          <ul className="mt-3">
+            {selectedPlayers.map((player, index) => (
+              <li key={index}>
+                <ul className="grid grid-cols-5 gap-3">
+                  {player.players.map((playerData, playerIndex) => (
+                    <li key={playerIndex} className="border border-zinc-400 px-3 py-2 rounded-sm">
+                      <p className="text-sm px-2">
+                        <label className="text-zinc-300">Nome:</label> {' '}
+                        {playerData.name}
+                      </p>
+                      <p className="text-sm px-2">
+                        <label className="text-zinc-300">Idade:</label> {' '}
+                        {playerData.age}
+                      </p>
+                      <p className="text-sm px-2">
+                        <label className="text-zinc-300">Posição:</label> {' '}
+                        {playerData.position}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </div>}
 
       <div>
-        {lineupWithMaxPlayed ? (
+        {selectedEstatitic === 'lineup' && lineupWithMaxPlayed ? (
           <article className="w-[300px]">
             <h1 className="title-content">Formação mais utilizada do time no campeonato</h1>
             <p className="p-2 border border-zinc-600 text-left">Formação: {lineupWithMaxPlayed.formation}</p>
@@ -262,7 +263,7 @@ function FormApi() {
       </div>
 
       <div>
-        {selectedGames?.played ? (
+        {selectedEstatitic === 'partidas' && selectedGames?.played ? (
           <article className="w-[300px]">
             <h3 className="title-content">Estatísticas de partidas</h3>
             <p className="p-2 border border-zinc-600 text-left">Total de partidas jogadas: {selectedGames.played.total} partidas</p>
@@ -274,7 +275,7 @@ function FormApi() {
       </div>
 
       <div>
-        {selectedTimeGoals && (
+        {selectedEstatitic === 'tempoGol' && selectedTimeGoals && (
           <article>
             <h3 className="title-content">Estatísticas de gols por tempo de jogo:</h3>
             {Object.entries(selectedTimeGoals).map(([interval, data]) => (

@@ -9,7 +9,7 @@ function SelectFetch({ url, mapFunction, value, onChange, idSelect }) {
       try {
         const response = await fetchDefault(url);
         const data = response.data.response;
-        console.log(data)
+        // console.log(data)
         // Verificar se data é um array
         if (Array.isArray(data)) {
           const mappedOptions = data.map(mapFunction);
