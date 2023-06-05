@@ -10,9 +10,12 @@ export default function Home() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const api = fetchDefault(inputKey);
-      const response = await api.get('/status');
-      const dataFetch = response.data.results;
+      const fetchResponse = await fetchDefault('/status', {
+        headers: {
+          "x-rapidapi-key": inputKey,
+        }
+      });
+      const dataFetch = await fetchResponse.data.results;
       setInfoLogin(dataFetch);
     } catch (error) {
       console.log(error);
