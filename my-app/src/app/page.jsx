@@ -6,20 +6,18 @@ import FormApi from "./Components/FormApi"
 export default function Home() {
   const [inputKey, setInput] = useState('')
   const [infoLogin, setInfoLogin] = useState([''])
-  async function handleSubmit(event) {
-    event.preventDefault()
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      const fetchResponse = await fetchDefault('/status', {
-        headers: {
-          "x-rapidapi-key": inputKey,
-        }
-      })
-      const dataFetch = await fetchResponse.data.results;
-      setInfoLogin(dataFetch)
+      const api = fetchDefault(inputKey);
+      const response = await api.get('/status');
+      const dataFetch = response.data.results;
+      setInfoLogin(dataFetch);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <section className="flex flex-col flex-1 h-screen bg-zinc-800 gap-3">
@@ -39,8 +37,6 @@ export default function Home() {
         {infoLogin === 0 ? (<p className="text-[0.7rem] text-red-600">Key Inválido</p>) :
           infoLogin === 1 ? (<FormApi />)
             : (<p className="text-sm text-zinc-500 py-2">Realize autenticação</p>)}
-
-
       </form>
 
 
