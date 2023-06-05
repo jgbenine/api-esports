@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import SelectFetch from "./SelectFetch"
 import Label from "./Label"
 import fetchDefault from '../axios/axiosConfig';
+import Button from './Button';
 
 function FormApi() {
   const [selectedCountry, setSelectedCountry] = useState('');
@@ -12,6 +13,7 @@ function FormApi() {
   const [selectedLineUp, setselectedLineUp] = useState([]);
   const [selectedGames, setselectedGames] = useState([]);
   const [selectedTimeGoals, setselectedTimeGoals] = useState([]);
+  const [selectedEstatitic, setSelectedEstatitics] = useState(null);
 
   const mapFunction = (data) => ({
     id: data.id,
@@ -53,32 +55,30 @@ function FormApi() {
     const selectedIndex = event.target.selectedIndex;
     const selectedTeamId = event.target.options[selectedIndex].value;
     setSelectedTeam(selectedTeamId);
-    console.log(selectedTeamId)
   }
 
-  //OBTER PLAYERS FETCH
-  // function clickPlayers() {
-  //   async function fetchPlayers(teamId) {
-  //     try {
-  //       const responseFetch = await fetchDefault(`/players/squads?team=${teamId}`)
-  //       const players = responseFetch.data.response;
-  //       console.log("players:" + players)
-  //       setSelectedPlayers(players)
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
-  //   if (selectedPlayers !== null) {
-  //     fetchPlayers('127')
-  //   }
-  //   console.log('ok')
-  // }
-
-  /**LINE UP INFO */
-  function getLineUp() {
-    async function fetchLineUps(teamId) {
+  //Players
+  function getPlayers() {
+    async function fetchPlayers(teamId) {
       try {
-        const responseFetch = await fetchDefault(`/teams/statistics?season=2022&team=127&league=73`)
+        const responseFetch = await fetchDefault(`/players/squads?team=${teamId}`)
+        const players = responseFetch.data.response;
+        setSelectedPlayers(players)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    if (selectedPlayers !== null) {
+      fetchPlayers(selectedTeam)
+    }
+    setSelectedEstatitics('players')
+  }
+
+  //Formação
+  function getLineUp() {
+    async function fetchLineUps(seasonId, teamId, leagueId) {
+      try {
+        const responseFetch = await fetchDefault(`/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`)
         const lineUps = responseFetch.data.response.lineups;
         setselectedLineUp(lineUps)
       } catch (error) {
@@ -86,8 +86,9 @@ function FormApi() {
       }
     }
     if (selectedLineUp !== null) {
-      fetchLineUps('127')
+      fetchLineUps(selectedSeason, selectedTeam, selectedLeague)
     }
+    setSelectedEstatitics('lineup')
   }
 
 
@@ -108,46 +109,45 @@ function FormApi() {
   const lineupWithMaxPlayed = getLineupWithMaxPlayed();
 
 
-  //INFO JOGOS
+  //Jogos info
   function getGames() {
     console.log('get Games')
-    async function fetchGames(teamId) {
+    async function fetchGames(seasonId, teamId, leagueId) {
       try {
-        const responseFetch = await fetchDefault(`/teams/statistics?season=2022&team=127&league=73`)
+        const responseFetch = await fetchDefault(`/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`)
         const games = responseFetch.data.response.fixtures;
-        console.log(games)
         setselectedGames(games)
       } catch (error) {
         console.log(error)
       }
     }
     if (selectedGames !== null) {
-      fetchGames('127')
+      fetchGames(selectedSeason, selectedTeam, selectedLeague)
     }
+    setSelectedEstatitics('partidas')
   }
 
-
+  //Gols por tempo de jogo
   function getTimeGoals() {
     console.log('get TimeGoals')
-    async function fetchTimeGoals(teamId) {
+    async function fetchTimeGoals(seasonId, teamId, leagueId) {
       try {
-        const responseFetch = await fetchDefault(`/teams/statistics?season=2022&team=127&league=73`)
+        const responseFetch = await fetchDefault(`/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`)
         const timeGoals = responseFetch.data.response.goals.against.minute;
-        console.log(timeGoals)
         setselectedTimeGoals(timeGoals)
       } catch (error) {
         console.log(error)
       }
     }
     if (selectedTimeGoals !== null) {
-      fetchTimeGoals('127')
+      fetchTimeGoals(selectedSeason, selectedTeam, selectedLeague)
     }
+    setSelectedEstatitics('tempoGol')
   }
-
 
   return (
     <section>
-      {/* <div className="flex flex-col gap-">
+      <div className="flex flex-col gap-">
         <Label
           htmlFor="countrySelect"
           text="Selecione um País"
@@ -159,9 +159,9 @@ function FormApi() {
           value={selectedCountry}
           onChange={handleCountry}
         />
-      </div > */}
+      </div >
 
-      {/* {selectedCountry ? (
+      {selectedCountry ? (
         <div className="flex flex-col gap-">
           <Label
             htmlFor="leagueSelect"
@@ -174,9 +174,9 @@ function FormApi() {
             value={selectedLeague}
             onChange={handleLeague}
           />
-        </div>) : <p></p>} */}
+        </div>) : <p></p>}
 
-      {/* {selectedLeague ? (
+      {selectedLeague ? (
         <div className="flex flex-col gap-">
           <Label
             htmlFor="seasonSelect"
@@ -189,58 +189,70 @@ function FormApi() {
             value={selectedSeason}
             onChange={handleSeason}
           />
-        </div>) : <p></p>} */}
+        </div>) : <p></p>}
 
 
-
-      <div className="flex flex-col gap-">
-        <Label
-          htmlFor="TeamSelect"
-          text="Selecione um time:"
-        />
-        <SelectFetch
-          idSelect="TeamSelect"
-          url={`/teams?league=73&season=13`}
-          mapFunction={mapFunctionTeams}
-          value={selectedTeam}
-          onChange={handleTeam}
-        />
-      </div>
-
-      {/* <button onClick={clickPlayers}>Obter players</button> */}
-      <button onClick={getLineUp}>Obter LineUp</button>
-      <button onClick={getGames}>Obter Jogos</button>
-      <button onClick={getTimeGoals}>Obter Time Goals</button>
-      {/* <div>
-        <ul className="mt-3">
-          {selectedPlayers.map((player, index) => (
-            <li key={index}>
-              <ul className="grid grid-cols-5 gap-3">
-                {player.players.map((playerData, playerIndex) => (
-                  console.log(player),
-                  <li key={playerIndex} className="border border-zinc-400 px-3 py-2 rounded-sm">
-                    <p className="text-sm px-2">
-                      <label className="text-zinc-300">Nome:</label> {' '}
-                      {playerData.name}
-                    </p>
-                    <p className="text-sm px-2">
-                      <label className="text-zinc-300">Idade:</label> {' '}
-                      {playerData.age}
-                    </p>
-                    <p className="text-sm px-2">
-                      <label className="text-zinc-300">Posição:</label> {' '}
-                      {playerData.position}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-      </div> */}
+      {selectedSeason ? (
+        <div className="flex flex-col gap-">
+          <Label
+            htmlFor="TeamSelect"
+            text="Selecione um time:"
+          />
+          <SelectFetch
+            idSelect="TeamSelect"
+            url={`/teams?league=${selectedLeague}&season=${selectedSeason}`}
+            mapFunction={mapFunctionTeams}
+            value={selectedTeam}
+            onChange={handleTeam}
+          />
+        </div>) : <p></p>}
 
       <div>
-        {lineupWithMaxPlayed ? (
+        {selectedCountry && selectedLeague && selectedSeason && selectedTeam !== null ? (
+          <div className="flex gap-2 mt-2">
+            <Button onClick={getLineUp} textView='Formação mais utilizada' />
+            <Button onClick={getPlayers} textView='Jogadores' />
+            <Button onClick={getGames} textView='Estásticas dos jogos' />
+            <Button onClick={getTimeGoals} textView='Gols por tempo de jogo' />
+          </div>
+        ) : (
+          <p className="text-sm text-zinc-500 py-2">Informe todos os itens para realizar ações</p>
+        )}
+
+      </div>
+
+
+      {selectedEstatitic === 'players' &&
+        <div>
+          <h1 className="title-content">Todos os Jogadores da temporada:</h1>
+          <ul className="mt-3">
+            {selectedPlayers.map((player, index) => (
+              <li key={index}>
+                <ul className="grid grid-cols-5 gap-3">
+                  {player.players.map((playerData, playerIndex) => (
+                    <li key={playerIndex} className="border border-zinc-400 px-3 py-2 rounded-sm">
+                      <p className="text-sm px-2">
+                        <label className="text-zinc-300">Nome:</label> {' '}
+                        {playerData.name}
+                      </p>
+                      <p className="text-sm px-2">
+                        <label className="text-zinc-300">Idade:</label> {' '}
+                        {playerData.age}
+                      </p>
+                      <p className="text-sm px-2">
+                        <label className="text-zinc-300">Posição:</label> {' '}
+                        {playerData.position}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        </div>}
+
+      <div>
+        {selectedEstatitic === 'lineup' && lineupWithMaxPlayed ? (
           <article className="w-[300px]">
             <h1 className="title-content">Formação mais utilizada do time no campeonato</h1>
             <p className="p-2 border border-zinc-600 text-left">Formação: {lineupWithMaxPlayed.formation}</p>
@@ -250,7 +262,7 @@ function FormApi() {
       </div>
 
       <div>
-        {selectedGames?.played ? (
+        {selectedEstatitic === 'partidas' && selectedGames?.played ? (
           <article className="w-[300px]">
             <h3 className="title-content">Estatísticas de partidas</h3>
             <p className="p-2 border border-zinc-600 text-left">Total de partidas jogadas: {selectedGames.played.total} partidas</p>
@@ -262,7 +274,7 @@ function FormApi() {
       </div>
 
       <div>
-        {selectedTimeGoals && (
+        {selectedEstatitic === 'tempoGol' && selectedTimeGoals && (
           <article>
             <h3 className="title-content">Estatísticas de gols por tempo de jogo:</h3>
             {Object.entries(selectedTimeGoals).map(([interval, data]) => (
@@ -275,7 +287,6 @@ function FormApi() {
           </article>
         )}
       </div>
-
 
 
     </section>

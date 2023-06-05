@@ -37,10 +37,10 @@ export default function Home() {
           <button type="submit" className="bg-green-600 w-24 mt-1 rounded-sm hover:bg-green-500">Acessar</button>
         </div>
         {infoLogin === 0 ? (<p className="text-[0.7rem] text-red-600">Key Inválido</p>) :
-          infoLogin === 1 ? (<p>Autenticação realizada</p>)
-            : (<p></p>)}
+          infoLogin === 1 ? (<FormApi />)
+            : (<p className="text-sm text-zinc-500 py-2">Realize autenticação</p>)}
 
-        <FormApi />
+
       </form>
 
 
