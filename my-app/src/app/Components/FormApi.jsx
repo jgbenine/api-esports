@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import SelectFetch from "./SelectFetch"
-import Label from "./Label"
 import fetchDefault from '../axios/axiosConfig';
 import Button from './Button';
+import CountrySelect from './FetchComp/CountrySelect';
+import LeagueSelect from './FetchComp/LeagueSelect';
 
 function FormApi() {
-  const [selectedCountry, setSelectedCountry] = useState('');
+
   const [selectedLeague, setSelectedLeague] = useState('');
   const [selectedSeason, setSelectedSeason] = useState('');
   const [selectedTeam, setSelectedTeam] = useState('');
@@ -14,11 +14,6 @@ function FormApi() {
   const [selectedGames, setselectedGames] = useState([]);
   const [selectedTimeGoals, setselectedTimeGoals] = useState([]);
   const [selectedEstatitic, setSelectedEstatitics] = useState(null);
-
-  const mapFunction = (data) => ({
-    id: data.id,
-    label: data.name,
-  });
 
   const mapFunctionLeague = (data) => ({
     id: data.league.id,
@@ -41,7 +36,6 @@ function FormApi() {
   };
 
   const handleLeague = (event) => {
-    //Pegando indice do elemento selecionado para compor nova requisição de players.
     const selectedIndex = event.target.selectedIndex;
     const selectedLeagueId = event.target.options[selectedIndex].value;
     setSelectedLeague(selectedLeagueId);
@@ -147,68 +141,13 @@ function FormApi() {
 
   return (
     <section>
-      <div className="flex flex-col gap-">
-        <Label
-          htmlFor="countrySelect"
-          text="Selecione um País"
-        />
-        <SelectFetch
-          idSelect="countrySelect"
-          url="/countries"
-          mapFunction={mapFunction}
-          value={selectedCountry}
-          onChange={handleCountry}
-        />
-      </div >
-
-      {selectedCountry ? (
-        <div className="flex flex-col gap-">
-          <Label
-            htmlFor="leagueSelect"
-            text="Selecione uma Liga"
-          />
-          <SelectFetch
-            idSelect="leagueSelect"
-            url={`/leagues?country=${selectedCountry}`}
-            mapFunction={mapFunctionLeague}
-            value={selectedLeague}
-            onChange={handleLeague}
-          />
-        </div>) : <p></p>}
-
-      {selectedLeague ? (
-        <div className="flex flex-col gap-">
-          <Label
-            htmlFor="seasonSelect"
-            text="Selecione uma temporada:"
-          />
-          <SelectFetch
-            idSelect="seasonSelect"
-            url={`/leagues/seasons`}
-            mapFunction={mapFunctionSeasons}
-            value={selectedSeason}
-            onChange={handleSeason}
-          />
-        </div>) : <p></p>}
-
-
-      {selectedSeason ? (
-        <div className="flex flex-col gap-">
-          <Label
-            htmlFor="TeamSelect"
-            text="Selecione um time:"
-          />
-          <SelectFetch
-            idSelect="TeamSelect"
-            url={`/teams?league=${selectedLeague}&season=${selectedSeason}`}
-            mapFunction={mapFunctionTeams}
-            value={selectedTeam}
-            onChange={handleTeam}
-          />
-        </div>) : <p></p>}
+      <CountrySelect />
+      
+      <LeagueSelect />
+    
 
       <div>
-        {selectedCountry && selectedLeague && selectedSeason && selectedTeam !== null ? (
+        { selectedLeague && selectedSeason && selectedTeam !== null ? (
           <div className="flex gap-2 mt-2">
             <Button onClick={getLineUp} textView='Formação mais utilizada' />
             <Button onClick={getPlayers} textView='Jogadores' />
