@@ -1,21 +1,18 @@
 import React from 'react'
 import Label from '../Label';
 import SelectFetch from '../SelectFetch';
+import { AppContext } from '@/app/AppContext';
 
-function TeamSelect({selectedLeague, selectedSeason}) {
-  const [selectedTeam, setSelectedTeam] = React.useState('');
-
-  const url = `/teams?league=${selectedLeague}&season=${selectedSeason}`;
-
+function TeamSelect() {
+  const {selectedLeague, selectedSeason , selectedTeam, setSelectedTeam} = React.useContext(AppContext)
+  
   function handleTeam(event){
     const selectedIndex = event.target.selectedIndex;
     const selectedTeamId = event.target.options[selectedIndex].value;
     setSelectedTeam(selectedTeamId);
-  }
 
-  const handleLeague = (selectedLeague) => {
-    setSelectedLeague(selectedLeague);
-  };
+    console.log(selectedTeam)
+  }
 
   const mapFunctionTeams = (data) => ({
     id: data.team.id,
@@ -30,13 +27,11 @@ function TeamSelect({selectedLeague, selectedSeason}) {
       />
       <SelectFetch
         idSelect="TeamSelect"
-        url={url}
+        url={`/teams?league=${selectedLeague}&season=${selectedSeason}`}
         mapFunction={mapFunctionTeams}
         value={selectedTeam}
         onChange={handleTeam}
       />
-
-      
     </div>
   )
 }

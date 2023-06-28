@@ -5,7 +5,6 @@ import { AppContext } from '@/app/AppContext';
 
 
 function CountrySelect() {
-  // const [selectedCountry, setSelectedCountry] = React.useState('');
   const {selectedCountry, setSelectedCountry} = useContext(AppContext)
 
   function handleCountry(event) {

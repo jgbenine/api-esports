@@ -3,6 +3,8 @@ import fetchDefault from '../axios/axiosConfig';
 import Button from './Button';
 import CountrySelect from './FetchComp/CountrySelect';
 import LeagueSelect from './FetchComp/LeagueSelect';
+import SeasonSelect from './FetchComp/SeasonSelect';
+import TeamSelect from './FetchComp/TeamSelect';
 
 function FormApi() {
 
@@ -144,6 +146,10 @@ function FormApi() {
       <CountrySelect />
       
       <LeagueSelect />
+
+      <SeasonSelect />
+
+      <TeamSelect />
     
 
       <div>

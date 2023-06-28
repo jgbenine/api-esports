@@ -4,9 +4,7 @@ import Label from '../Label';
 import { AppContext } from '@/app/AppContext';
 
 function LeagueSelect() {
-  const [selectedLeague, setSelectedLeague] = React.useState('');
-  const {selectedCountry} = React.useContext(AppContext)
-
+  const {selectedCountry, selectedLeague, setSelectedLeague } = React.useContext(AppContext)
 
   function handleLeague(event){
     const selectedIndex = event.target.selectedIndex;

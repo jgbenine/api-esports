@@ -1,19 +1,14 @@
 import React from 'react'
 import Label from '../Label';
 import SelectFetch from '../SelectFetch';
-import TeamSelect from './TeamSelect';
+import { AppContext } from '@/app/AppContext';
 
 function SeasonSelect() {
-  const [selectedSeason, setSelectedSeason] = React.useState('');
-  const [selectedLeague, setSelectedLeague] = React.useState('');
+  const {selectedSeason, setSelectedSeason} = React.useContext(AppContext)
 
   const handleSeason = (event) => {
     setSelectedSeason(event.target.value)
   }
-
-  const handleLeague = (selectedLeague) => {
-    setSelectedLeague(selectedLeague);
-  };
 
   const mapFunctionSeasons = (data) => ({
     id: data,
@@ -33,8 +28,6 @@ function SeasonSelect() {
         value={selectedSeason}
         onChange={handleSeason}
       />
-
-      <TeamSelect selectedLeague={selectedLeague} selectedSeason={selectedSeason} />
     </div>
   )
 }
