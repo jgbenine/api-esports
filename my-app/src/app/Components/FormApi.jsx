@@ -1,74 +1,40 @@
-import { useEffect, useState } from 'react'
+import React from 'react'
 import fetchDefault from '../axios/axiosConfig';
 import Button from './Button';
 import CountrySelect from './FetchComp/CountrySelect';
 import LeagueSelect from './FetchComp/LeagueSelect';
 import SeasonSelect from './FetchComp/SeasonSelect';
 import TeamSelect from './FetchComp/TeamSelect';
+import { AppContext } from '../AppContext';
 
 function FormApi() {
+  const {getPlayers, selectedEstatitic, selectedPlayers} = React.useContext(AppContext)
+  // const [selectedLeague, setSelectedLeague] = React.useState('');
+  // const [selectedSeason, setSelectedSeason] = React.useState('');
+  // const [selectedTeam, setSelectedTeam] = React.useState('');
+  // const [selectedPlayers, setSelectedPlayers] = React.useState([]);
+  const [selectedLineUp, setselectedLineUp] = React.useState([]);
+  const [selectedGames, setselectedGames] = React.useState([]);
+  const [selectedTimeGoals, setselectedTimeGoals] = React.useState([]);
+  // const [selectedEstatitic, setSelectedEstatitics] = React.useState(null);
 
-  const [selectedLeague, setSelectedLeague] = useState('');
-  const [selectedSeason, setSelectedSeason] = useState('');
-  const [selectedTeam, setSelectedTeam] = useState('');
-  const [selectedPlayers, setSelectedPlayers] = useState([]);
-  const [selectedLineUp, setselectedLineUp] = useState([]);
-  const [selectedGames, setselectedGames] = useState([]);
-  const [selectedTimeGoals, setselectedTimeGoals] = useState([]);
-  const [selectedEstatitic, setSelectedEstatitics] = useState(null);
-
-  const mapFunctionLeague = (data) => ({
-    id: data.league.id,
-    label: data.league.name,
-  });
-
-  const mapFunctionTeams = (data) => ({
-    id: data.team.id,
-    label: data.team.name,
-  });
-
-  const mapFunctionSeasons = (data) => ({
-    id: data,
-    label: `${data}-${data + 1}`,
-  });
-
-  const handleCountry = (event) => {
-    setSelectedCountry(event.target.value);
-    console.log(event.target.value)
-  };
-
-  const handleLeague = (event) => {
-    const selectedIndex = event.target.selectedIndex;
-    const selectedLeagueId = event.target.options[selectedIndex].value;
-    setSelectedLeague(selectedLeagueId);
-  }
-
-  const handleSeason = (event) => {
-    setSelectedSeason(event.target.value)
-  }
-
-  const handleTeam = (event) => {
-    const selectedIndex = event.target.selectedIndex;
-    const selectedTeamId = event.target.options[selectedIndex].value;
-    setSelectedTeam(selectedTeamId);
-  }
 
   //Players
-  function getPlayers() {
-    async function fetchPlayers(teamId) {
-      try {
-        const responseFetch = await fetchDefault(`/players/squads?team=${teamId}`)
-        const players = responseFetch.data.response;
-        setSelectedPlayers(players)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    if (selectedPlayers !== null) {
-      fetchPlayers(selectedTeam)
-    }
-    setSelectedEstatitics('players')
-  }
+  // function getPlayers() {
+  //   async function fetchPlayers(teamId) {/
+  //     try {
+  //       const responseFetch = await fetchDefault(`/players/squads?team=${teamId}`)
+  //       const players = responseFetch.data.response;
+  //       setSelectedPlayers(players)
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  //   if (selectedPlayers !== null) {
+  //     fetchPlayers(selectedTeam)
+  //   }
+  //   setSelectedEstatitics('players')
+  // }
 
   //Formação
   function getLineUp() {
@@ -144,30 +110,22 @@ function FormApi() {
   return (
     <section>
       <CountrySelect />
-      
       <LeagueSelect />
-
       <SeasonSelect />
-
       <TeamSelect />
     
 
       <div>
-        { selectedLeague && selectedSeason && selectedTeam !== null ? (
           <div className="flex gap-2 mt-2">
             <Button onClick={getLineUp} textView='Formação mais utilizada' />
             <Button onClick={getPlayers} textView='Jogadores' />
             <Button onClick={getGames} textView='Estásticas dos jogos' />
             <Button onClick={getTimeGoals} textView='Gols por tempo de jogo' />
           </div>
-        ) : (
-          <p className="text-sm text-zinc-500 py-2">Informe todos os itens para realizar ações</p>
-        )}
-
       </div>
 
 
-      {selectedEstatitic === 'players' &&
+
         <div>
           <h1 className="title-content">Todos os Jogadores da temporada:</h1>
           <ul className="mt-3">
@@ -194,7 +152,7 @@ function FormApi() {
               </li>
             ))}
           </ul>
-        </div>}
+        </div>
 
       <div>
         {selectedEstatitic === 'lineup' && lineupWithMaxPlayed ? (

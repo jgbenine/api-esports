@@ -5,12 +5,11 @@ import { AppContext } from '@/app/AppContext';
 
 function TeamSelect() {
   const {selectedLeague, selectedSeason , selectedTeam, setSelectedTeam} = React.useContext(AppContext)
-  
+
   function handleTeam(event){
     const selectedIndex = event.target.selectedIndex;
     const selectedTeamId = event.target.options[selectedIndex].value;
     setSelectedTeam(selectedTeamId);
-
     console.log(selectedTeam)
   }
 
