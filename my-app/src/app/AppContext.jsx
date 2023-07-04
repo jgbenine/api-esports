@@ -9,6 +9,7 @@ export const AppProvider = ({ children }) => {
   const [selectedTeam, setSelectedTeam] = useState('');
   const [selectedPlayers, setSelectedPlayers] = React.useState([]);
   const [selectedGames, setselectedGames] = React.useState([]);
+  const [selectedTimeGoals, setselectedTimeGoals] = React.useState([]);
   const [selectedEstatitic, setSelectedEstatitics] = React.useState(null);
   // const [selectedLineUp, setselectedLineUp] = React.useState([]);
 
@@ -31,23 +32,42 @@ export const AppProvider = ({ children }) => {
     setSelectedEstatitics('players')
   }
 
-    //Estatística dos jogos 
-    function getGames(event) {
-      event.preventDefault()
-      async function fetchGames(seasonId, teamId, leagueId) {
-        try {
-          const responseFetch = await fetchDefault(`/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`)
-          const games = responseFetch.data.response.fixtures;
-          setselectedGames(games)
-        } catch (error) {
-          console.log(error)
-        }
+  //Estatística dos jogos 
+  function getGames(event) {
+    event.preventDefault()
+    async function fetchGames(seasonId, teamId, leagueId) {
+      try {
+        const responseFetch = await fetchDefault(`/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`)
+        const games = responseFetch.data.response.fixtures;
+        setselectedGames(games)
+      } catch (error) {
+        console.log(error)
       }
-      if (selectedGames !== null) {
-        fetchGames(selectedSeason, selectedTeam, selectedLeague)
-      }
-      setSelectedEstatitics('partidas')
     }
+    if (selectedGames !== null) {
+      fetchGames(selectedSeason, selectedTeam, selectedLeague)
+    }
+    setSelectedEstatitics('partidas')
+  }
+
+
+  //Gols por tempo de jogo
+  function getTimeGoals(event) {
+    event.preventDefault()
+    async function fetchTimeGoals(seasonId, teamId, leagueId) {
+      try {
+        const responseFetch = await fetchDefault(`/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`)
+        const timeGoals = responseFetch.data.response.goals.against.minute;
+        setselectedTimeGoals(timeGoals)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    if (selectedTimeGoals !== null) {
+      fetchTimeGoals(selectedSeason, selectedTeam, selectedLeague)
+    }
+    setSelectedEstatitics('tempoGol')
+  }
 
 
   //Retorna as formações mais utilizadas da temporada com um time e liga.
@@ -62,7 +82,7 @@ export const AppProvider = ({ children }) => {
   //     } catch (error) {
   //       console.log(error)
   //     }
-     
+
   //   }
   //   if (selectedLineUp !== null) {
   //     fetchLineUps(selectedSeason, selectedTeam, selectedLeague)
@@ -100,9 +120,12 @@ export const AppProvider = ({ children }) => {
         setSelectedTeam,
         getPlayers,
         selectedPlayers,
-        selectedEstatitic,
         selectedGames,
-        getGames
+        getGames,
+        selectedTimeGoals,
+        getTimeGoals,
+        selectedEstatitic,
+        
         // getLineUp,
         // selectedLineUp,
         // getLineupWithMaxPlayed,
