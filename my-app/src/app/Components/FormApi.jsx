@@ -8,18 +8,25 @@ import TeamSelect from './FetchComp/TeamSelect';
 import { AppContext } from '../AppContext';
 
 function FormApi() {
-  const {getPlayers, selectedEstatitic, selectedPlayers, selectedLineUp, getLineUp, lineupWithMaxPlayed } = React.useContext(AppContext)
+  const {
+          selectedEstatitic,
+          getPlayers,
+          selectedPlayers,
+          getGames,
+          selectedGames
+        } = React.useContext(AppContext)
+
   // const [selectedLeague, setSelectedLeague] = React.useState('');
   // const [selectedSeason, setSelectedSeason] = React.useState('');
   // const [selectedTeam, setSelectedTeam] = React.useState('');
   // const [selectedPlayers, setSelectedPlayers] = React.useState([]);
   // const [selectedLineUp, setselectedLineUp] = React.useState([]);
-  const [selectedGames, setselectedGames] = React.useState([]);
+
   const [selectedTimeGoals, setselectedTimeGoals] = React.useState([]);
   // const [selectedEstatitic, setSelectedEstatitics] = React.useState(null);
 
-  console.log(selectedLineUp)
-  console.log(lineupWithMaxPlayed)
+  // console.log(selectedLineUp)
+  // console.log(lineupWithMaxPlayed)
 
 
   //Formação
@@ -57,23 +64,6 @@ function FormApi() {
   // const lineupWithMaxPlayed = getLineupWithMaxPlayed();
 
 
-  //Jogos info
-  function getGames() {
-    console.log('get Games')
-    async function fetchGames(seasonId, teamId, leagueId) {
-      try {
-        const responseFetch = await fetchDefault(`/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`)
-        const games = responseFetch.data.response.fixtures;
-        setselectedGames(games)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    if (selectedGames !== null) {
-      fetchGames(selectedSeason, selectedTeam, selectedLeague)
-    }
-    setSelectedEstatitics('partidas')
-  }
 
   //Gols por tempo de jogo
   function getTimeGoals() {
@@ -103,8 +93,8 @@ function FormApi() {
 
       <div>
           <div className="flex gap-2 mt-2">
-            <Button onClick={getLineUp} textView='Formação mais utilizada' />
-            <Button onClick={getPlayers} textView='Jogadores' />
+            {/* <Button onClick={getLineUp} textView='Formação mais utilizada' /> */}
+            <Button onClick={getPlayers} textView='Jogadores do time' />
             <Button onClick={getGames} textView='Estásticas dos jogos' />
             <Button onClick={getTimeGoals} textView='Gols por tempo de jogo' />
           </div>
@@ -144,8 +134,8 @@ function FormApi() {
         {selectedEstatitic === 'lineup' && 
           <article className="w-[300px]">
             <h1 className="title-content">Formação mais utilizada do time no campeonato</h1>
-            <p className="p-2 border border-zinc-600 text-left">Formação: {lineupWithMaxPlayed.formation}</p>
-            <p className="p-2 border border-zinc-600 text-left">Partidas com formação: {lineupWithMaxPlayed.played} partidas</p>
+            <p className="p-2 border border-zinc-600 text-left">Formação: {lineupWithMaxPlayed}</p>
+            <p className="p-2 border border-zinc-600 text-left">Partidas com formação: {lineupWithMaxPlayed} partidas</p>
           </article>
         }
       </div>
