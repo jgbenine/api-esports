@@ -109,7 +109,8 @@ export const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{
+    value={{
+        selectedEstatitic,
         selectedCountry,
         setSelectedCountry,
         selectedLeague,
@@ -124,7 +125,6 @@ export const AppProvider = ({ children }) => {
         getGames,
         selectedTimeGoals,
         getTimeGoals,
-        selectedEstatitic,
         
         // getLineUp,
         // selectedLineUp,

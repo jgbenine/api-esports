@@ -10,7 +10,6 @@ function TeamSelect() {
     const selectedIndex = event.target.selectedIndex;
     const selectedTeamId = event.target.options[selectedIndex].value;
     setSelectedTeam(selectedTeamId);
-    console.log(selectedTeam)
   }
 
   const mapFunctionTeams = (data) => ({
