@@ -18,10 +18,10 @@ function TeamSelect() {
   });
 
   return (
-    <div className="flex flex-col gap-">
+    <div className="flex flex-col mb-5">
       <Label
         htmlFor="TeamSelect"
-        text="Selecione um time:"
+        text="Times:"
       />
       <SelectFetch
         idSelect="TeamSelect"

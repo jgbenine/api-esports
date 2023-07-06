@@ -25,13 +25,21 @@ function SelectFetch({ url, mapFunction, value, onChange, idSelect }) {
   }, [url])
 
   return (
-      <select id={idSelect} className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 py-0.5 text-zinc-900" value={value} onChange={onChange}>
-        {options.map((option, index) => (
-          <option key={index} value={option.id}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+    <select
+      className="w-[280px] bg-zinc-400 rounded-sm focus:outline-none px-2 p-2 text-zinc-900 "
+      id={idSelect}
+      value={value}
+      onChange={onChange}
+    >
+      <option value="" disabled selected hidden>
+        Selecione uma opção
+      </option>
+      {options.map((option, index) => (
+        <option key={index} value={option.id}>
+          {option.label}
+        </option>
+      ))}
+    </select>
   )
 }
 

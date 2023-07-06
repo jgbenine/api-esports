@@ -17,10 +17,10 @@ function CountrySelect() {
   });
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mb-3">
       <Label
         htmlFor="countrySelect"
-        text="Selecione um País"
+        text="Países:"
       />
       <SelectFetch
         idSelect="countrySelect"

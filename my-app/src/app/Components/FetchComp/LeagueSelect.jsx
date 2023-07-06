@@ -18,10 +18,10 @@ function LeagueSelect() {
   });
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mb-3">
       <Label
         htmlFor="leagueSelect"
-        text="Selecione uma Liga"
+        text="Ligas:"
       />
       <SelectFetch
         idSelect="leagueSelect"

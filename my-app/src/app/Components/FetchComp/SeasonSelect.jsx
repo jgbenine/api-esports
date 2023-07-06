@@ -16,10 +16,10 @@ function SeasonSelect() {
   });
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col mb-3">
       <Label
         htmlFor="seasonSelect"
-        text="Selecione uma temporada:"
+        text="Temporadas:"
       />
       <SelectFetch
         idSelect="seasonSelect"
