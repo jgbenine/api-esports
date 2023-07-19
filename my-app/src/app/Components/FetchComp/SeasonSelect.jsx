@@ -16,7 +16,7 @@ function SeasonSelect() {
   });
 
   return (
-    <div className="flex flex-col mb-3">
+    <div className="flex flex-col w-full">
       <Label
         htmlFor="seasonSelect"
         text="Temporadas:"

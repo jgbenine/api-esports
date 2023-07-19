@@ -17,7 +17,7 @@ function CountrySelect() {
   });
 
   return (
-    <div className="flex flex-col mb-3">
+    <div className="flex flex-col w-full">
       <Label
         htmlFor="countrySelect"
         text="Países:"

@@ -18,7 +18,7 @@ function LeagueSelect() {
   });
 
   return (
-    <div className="flex flex-col mb-3">
+    <div className="flex flex-col w-full">
       <Label
         htmlFor="leagueSelect"
         text="Ligas:"
