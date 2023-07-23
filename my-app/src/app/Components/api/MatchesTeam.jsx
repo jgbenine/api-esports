@@ -5,7 +5,7 @@ function MatchesTeam() {
   const { selectedGames } = React.useContext(AppContext)
 
   return (
-    <article className="w-[300px]">
+    <article className="w-full">
       <h3 className="title-content">Estatísticas de partidas</h3>
       <p className="p-2 border border-zinc-600 text-left">Total de partidas jogadas: {selectedGames.played.total} partidas</p>
       <p className="p-2 border border-zinc-600 text-left">Total de partidas ganhas: {selectedGames.wins.total} partidas</p>

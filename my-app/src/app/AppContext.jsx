@@ -11,7 +11,7 @@ export const AppProvider = ({ children }) => {
   const [selectedGames, setselectedGames] = React.useState([]);
   const [selectedTimeGoals, setselectedTimeGoals] = React.useState([]);
   const [selectedEstatitic, setSelectedEstatitics] = React.useState(null);
-  // const [selectedLineUp, setselectedLineUp] = React.useState([]);
+  const [selectedLineUp, setselectedLineUp] = React.useState([]);
 
 
   //Retorna todos os jogadores de um time
@@ -70,42 +70,42 @@ export const AppProvider = ({ children }) => {
   }
 
 
-  //Retorna as formações mais utilizadas da temporada com um time e liga.
-  // function getLineUp(event) {
-  //   event.preventDefault()
-  //   async function fetchLineUps(seasonId, teamId, leagueId) {
-  //     try {
-  //       const responseFetch = await fetchDefault(`/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`)
-  //       const lineUps = responseFetch.data.response.lineups;
-  //       setselectedLineUp(lineUps)
-  //       console.log(responseFetch)
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
+  
+  function getLineUp(event) {
+    event.preventDefault()
+    async function fetchLineUps(seasonId, teamId, leagueId) {
+      try {
+        const responseFetch = await fetchDefault(`/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`)
+        const lineUps = responseFetch.data.response.lineups;
+        setselectedLineUp(lineUps)
+        console.log(responseFetch)
+      } catch (error) {
+        console.log(error)
+      }
 
-  //   }
-  //   if (selectedLineUp !== null) {
-  //     fetchLineUps(selectedSeason, selectedTeam, selectedLeague)
-  //   }
-  //   setSelectedEstatitics('lineup')
-  // }
+    }
+    if (selectedLineUp !== null) {
+      fetchLineUps(selectedSeason, selectedTeam, selectedLeague)
+    }
+    setSelectedEstatitics('lineup')
+  }
 
-  // function getLineupWithMaxPlayed() {
-  //   let maxPlayed = 0;
-  //   let lineupWithMaxPlayed = null;
+  function getLineupWithMaxPlayed() {
+    let maxPlayed = 0;
+    let lineupWithMaxPlayed = null;
 
-  //   if (selectedLineUp && selectedLineUp.length > 0) {
-  //     for (let i = 0; i < selectedLineUp.length; i++) {
-  //       const lineup = selectedLineUp[i];
-  //       if (lineup.played > maxPlayed) {
-  //         maxPlayed = lineup.played;
-  //         lineupWithMaxPlayed = lineup;
-  //       }
-  //     }
-  //   }
-  //   return lineupWithMaxPlayed;
-  // }
-  // const lineupWithMaxPlayed = getLineupWithMaxPlayed();
+    if (selectedLineUp && selectedLineUp.length > 0) {
+      for (let i = 0; i < selectedLineUp.length; i++) {
+        const lineup = selectedLineUp[i];
+        if (lineup.played > maxPlayed) {
+          maxPlayed = lineup.played;
+          lineupWithMaxPlayed = lineup;
+        }
+      }
+    }
+    return lineupWithMaxPlayed;
+  }
+  const lineupWithMaxPlayed = getLineupWithMaxPlayed();
 
   return (
     <AppContext.Provider
@@ -125,11 +125,10 @@ export const AppProvider = ({ children }) => {
         getGames,
         selectedTimeGoals,
         getTimeGoals,
-        
-        // getLineUp,
-        // selectedLineUp,
-        // getLineupWithMaxPlayed,
-        // lineupWithMaxPlayed,
+        getLineUp,
+        selectedLineUp,
+        getLineupWithMaxPlayed,
+        lineupWithMaxPlayed,
       }}
     >
       {children}

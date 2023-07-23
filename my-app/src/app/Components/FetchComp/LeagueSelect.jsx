@@ -11,7 +11,6 @@ function LeagueSelect() {
     const selectedLeagueId = event.target.options[selectedIndex].value;
     setSelectedLeague(selectedLeagueId);
   }
-
   const mapFunctionLeague = (data) => ({
     id: data.league.id,
     label: data.league.name,
