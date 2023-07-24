@@ -1,5 +1,6 @@
 import { AppContext } from "@/app/AppContext";
 import React from "react";
+import Loading from "../Loading";
 
 function LineupTeam() {
   const { lineupWithMaxPlayed } = React.useContext(AppContext);
@@ -19,7 +20,7 @@ function LineupTeam() {
           </p>
         </div>
       ) : (
-        <p>Carregando...</p>
+        <Loading />
       )}
     </article>
   );

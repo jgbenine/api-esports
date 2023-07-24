@@ -26,7 +26,7 @@ function SelectFetch({ url, mapFunction, value, onChange, idSelect }) {
   return (
     <div className="max-w-[280px] w-full">
       <select
-        className="w-full bg-zinc-400 rounded-sm focus:outline-none p-2 shadow-md cursor-pointer shadow-black text-zinc-900 focus:bg-slate-400"
+        className="w-full bg-zinc-400 rounded-sm focus:outline-none p-2 shadow-md cursor-pointer shadow-black text-zinc-900 hover:bg-zinc-300 focus:bg-slate-400"
         id={idSelect}
         value={value}
         onChange={onChange}

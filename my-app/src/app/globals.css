@@ -26,22 +26,63 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-
-.title-content{
+.title-content {
   font-size: 1.1rem;
-  padding: 10px 0px;
-  margin: 5px 0px;
+  padding: 15px 0px;
+  margin: 10px 0px;
   position: relative;
   max-width: 100%;
 }
 
-.title-content:after{
-    content: '';
-    position: absolute;
-    bottom: 5px;
-    left: 0;
-    border-bottom: 1px solid yellow;
-    width: 100%;
-    max-width: 120px;
-    height: 1px;
+.title-content:after {
+  content: "";
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  border-bottom: 1px solid yellow;
+  width: 100%;
+  max-width: 120px;
+  height: 1px;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.loading img {
+  animation: animaLoading 1.1s linear infinite;
+}
+
+.loading span {
+  height: 10px;
+  width: 80px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.3);
+  animation: animaShadown 1.2s linear infinite;
+}
+
+@keyframes animaLoading {
+  from {
+    transform: rotate(0deg) translateY(-5px);
+  }
+  to {
+    transform: rotate(360deg) translateY(-5px);
+  }
+}
+
+@keyframes animaShadown {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.8);
+  }
 }
