@@ -52,11 +52,9 @@ function FormApi() {
         {selectedEstatitic === "partidas" && selectedGames?.played ? (
           <MatchesTeam />
         ) : null}
-
         {selectedEstatitic === "tempoGol" && selectedTimeGoals && (
           <GoalsByGameTime />
         )}
-
         {selectedEstatitic === "lineup" && selectedPlayers && <LineupTeam />}
       </div>
     </section>

@@ -35,7 +35,6 @@ function SelectFetch({ url, mapFunction, value, onChange, idSelect }) {
           className="text-stone-700 cursor-pointer"
           value=""
           disabled
-          selected
           hidden
         >
           Selecione uma opção
