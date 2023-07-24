@@ -1,115 +1,119 @@
-import React, { createContext, useState } from 'react';
-import fetchDefault from './axios/axiosConfig';
+import React, { createContext, useState } from "react";
+import fetchDefault from "./axios/axiosConfig";
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [selectedLeague, setSelectedLeague] = useState('');
-  const [selectedSeason, setSelectedSeason] = useState('');
-  const [selectedTeam, setSelectedTeam] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedLeague, setSelectedLeague] = useState("");
+  const [selectedSeason, setSelectedSeason] = useState("");
+  const [selectedTeam, setSelectedTeam] = useState("");
   const [selectedPlayers, setSelectedPlayers] = React.useState([]);
   const [selectedGames, setselectedGames] = React.useState([]);
   const [selectedTimeGoals, setselectedTimeGoals] = React.useState([]);
   const [selectedEstatitic, setSelectedEstatitics] = React.useState(null);
-  // const [selectedLineUp, setselectedLineUp] = React.useState([]);
-
+  const [selectedLineUp, setselectedLineUp] = React.useState([]);
 
   //Retorna todos os jogadores de um time
   function getPlayers(event) {
-    event.preventDefault()
+    event.preventDefault();
     async function fetchPlayers(teamId) {
       try {
-        const responseFetch = await fetchDefault(`/players/squads?team=${teamId}`)
+        const responseFetch = await fetchDefault(
+          `/players/squads?team=${teamId}`
+        );
         const players = responseFetch.data.response;
-        setSelectedPlayers(players)
+        setSelectedPlayers(players);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
     if (selectedPlayers !== null) {
-      fetchPlayers(selectedTeam)
+      fetchPlayers(selectedTeam);
     }
-    setSelectedEstatitics('players')
+    setSelectedEstatitics("players");
   }
 
-  //Estatística dos jogos 
+  //Estatística dos jogos
   function getGames(event) {
-    event.preventDefault()
+    event.preventDefault();
     async function fetchGames(seasonId, teamId, leagueId) {
       try {
-        const responseFetch = await fetchDefault(`/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`)
+        const responseFetch = await fetchDefault(
+          `/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`
+        );
         const games = responseFetch.data.response.fixtures;
-        setselectedGames(games)
+        setselectedGames(games);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
     if (selectedGames !== null) {
-      fetchGames(selectedSeason, selectedTeam, selectedLeague)
+      fetchGames(selectedSeason, selectedTeam, selectedLeague);
     }
-    setSelectedEstatitics('partidas')
+    setSelectedEstatitics("partidas");
   }
-
 
   //Gols por tempo de jogo
   function getTimeGoals(event) {
-    event.preventDefault()
+    event.preventDefault();
     async function fetchTimeGoals(seasonId, teamId, leagueId) {
       try {
-        const responseFetch = await fetchDefault(`/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`)
+        const responseFetch = await fetchDefault(
+          `/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`
+        );
         const timeGoals = responseFetch.data.response.goals.against.minute;
-        setselectedTimeGoals(timeGoals)
+        setselectedTimeGoals(timeGoals);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
     if (selectedTimeGoals !== null) {
-      fetchTimeGoals(selectedSeason, selectedTeam, selectedLeague)
+      fetchTimeGoals(selectedSeason, selectedTeam, selectedLeague);
     }
-    setSelectedEstatitics('tempoGol')
+    setSelectedEstatitics("tempoGol");
   }
 
+  //Formação mais utilizada.
+  function getLineUp(event) {
+    event.preventDefault();
+    async function fetchLineUps(seasonId, teamId, leagueId) {
+      try {
+        const responseFetch = await fetchDefault(
+          `/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`
+        );
+        const lineUps = responseFetch.data.response.lineups;
+        setselectedLineUp(lineUps);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    if (selectedLineUp !== null) {
+      fetchLineUps(selectedSeason, selectedTeam, selectedLeague);
+    }
+    setSelectedEstatitics("lineup");
+  }
+  
+  //Formação mais Jogada na temporada.
+  function getLineupWithMaxPlayed() {
+    let maxPlayed = 0;
+    let lineupWithMaxPlayed = null;
 
-  //Retorna as formações mais utilizadas da temporada com um time e liga.
-  // function getLineUp(event) {
-  //   event.preventDefault()
-  //   async function fetchLineUps(seasonId, teamId, leagueId) {
-  //     try {
-  //       const responseFetch = await fetchDefault(`/teams/statistics?season=${seasonId}&team=${teamId}&league=${leagueId}`)
-  //       const lineUps = responseFetch.data.response.lineups;
-  //       setselectedLineUp(lineUps)
-  //       console.log(responseFetch)
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-
-  //   }
-  //   if (selectedLineUp !== null) {
-  //     fetchLineUps(selectedSeason, selectedTeam, selectedLeague)
-  //   }
-  //   setSelectedEstatitics('lineup')
-  // }
-
-  // function getLineupWithMaxPlayed() {
-  //   let maxPlayed = 0;
-  //   let lineupWithMaxPlayed = null;
-
-  //   if (selectedLineUp && selectedLineUp.length > 0) {
-  //     for (let i = 0; i < selectedLineUp.length; i++) {
-  //       const lineup = selectedLineUp[i];
-  //       if (lineup.played > maxPlayed) {
-  //         maxPlayed = lineup.played;
-  //         lineupWithMaxPlayed = lineup;
-  //       }
-  //     }
-  //   }
-  //   return lineupWithMaxPlayed;
-  // }
-  // const lineupWithMaxPlayed = getLineupWithMaxPlayed();
+    if (selectedLineUp && selectedLineUp.length > 0) {
+      for (let i = 0; i < selectedLineUp.length; i++) {
+        const lineup = selectedLineUp[i];
+        if (lineup.played > maxPlayed) {
+          maxPlayed = lineup.played;
+          lineupWithMaxPlayed = lineup;
+        }
+      }
+    }
+    return lineupWithMaxPlayed;
+  }
+  const lineupWithMaxPlayed = getLineupWithMaxPlayed();
 
   return (
     <AppContext.Provider
-    value={{
+      value={{
         selectedEstatitic,
         selectedCountry,
         setSelectedCountry,
@@ -125,11 +129,10 @@ export const AppProvider = ({ children }) => {
         getGames,
         selectedTimeGoals,
         getTimeGoals,
-        
-        // getLineUp,
-        // selectedLineUp,
-        // getLineupWithMaxPlayed,
-        // lineupWithMaxPlayed,
+        getLineUp,
+        selectedLineUp,
+        getLineupWithMaxPlayed,
+        lineupWithMaxPlayed,
       }}
     >
       {children}

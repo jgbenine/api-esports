@@ -3,7 +3,6 @@ import Label from '../Label';
 import SelectFetch from '../SelectFetch';
 import { AppContext } from '@/app/AppContext';
 
-
 function CountrySelect() {
   const {selectedCountry, setSelectedCountry} = useContext(AppContext)
 

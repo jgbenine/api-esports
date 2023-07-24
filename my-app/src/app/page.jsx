@@ -3,6 +3,7 @@
 // import fetchDefault from "./axios/axiosConfig"
 import FormApi from "./Components/FormApi"
 import { AppProvider } from "./AppContext"
+import Loading from "./Components/Loading"
 
 export default function Home() {
   return (
