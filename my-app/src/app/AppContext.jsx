@@ -12,6 +12,7 @@ export const AppProvider = ({ children }) => {
   const [selectedTimeGoals, setselectedTimeGoals] = React.useState([]);
   const [selectedEstatitic, setSelectedEstatitics] = React.useState(null);
   const [selectedLineUp, setselectedLineUp] = React.useState([]);
+  const [infoPlayer, setInfoPlayer] = React.useState([]);
 
   //Retorna todos os jogadores de um time
   function getPlayers(event) {
@@ -31,6 +32,19 @@ export const AppProvider = ({ children }) => {
       fetchPlayers(selectedTeam);
     }
     setSelectedEstatitics("players");
+  }
+
+  //Informações de jogador  
+  function getInfoPlayer(event){
+    event.preventDefault();
+
+    async function fetchInfoPlayer(){
+      const responseFetch = await fetchDefault(`/players?id=2283&season=2019`);
+      const infoPlayer = responseFetch.data.response;
+      setInfoPlayer(infoPlayer)
+      console.log(infoPlayer);
+    }
+    fetchInfoPlayer();
   }
 
   //Estatística dos jogos
@@ -133,6 +147,8 @@ export const AppProvider = ({ children }) => {
         selectedLineUp,
         getLineupWithMaxPlayed,
         lineupWithMaxPlayed,
+        getInfoPlayer,
+        infoPlayer,
       }}
     >
       {children}
