@@ -33,12 +33,12 @@ function FormApi() {
           <p className="text-sm text-zinc-400 pb-1">
             Selecione todas opções para obter estatísticas:
           </p>
-          {/* <span className="grid gap-3 md:grid-cols-4">
+          <span className="grid gap-3 md:grid-cols-4">
             <CountrySelect />
             <LeagueSelect />
             <SeasonSelect />
             <TeamSelect />
-          </span> */}
+          </span>
         </article>
         <article className="flex flex-col gap-3  border-red-500">
           <p className="text-sm text-zinc-400">Ações:</p>

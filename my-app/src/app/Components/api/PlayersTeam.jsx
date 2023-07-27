@@ -9,33 +9,42 @@ function PlayersTeam() {
     <section>
       <h1 className="title-content">Todos os Jogadores da temporada:</h1>
       {selectedPlayers ? (
-        <ul className="mt-3">
+        <div className="mt-3">
           {selectedPlayers.map((player, index) => (
-            <li key={index}>
-              <ul className="grid grid-cols-5 gap-3">
-                {player.players.map((playerData, playerIndex) => (
+            <div key={index}>
+              <ul className="grid grid-cols-5 gap-x-3 gap-y-6">
+                {player.players.map((playerData) => (
                   <li
-                    key={playerIndex}
-                    className="border border-zinc-400 px-3 py-2 rounded-sm"
+                    key={playerData.player.id}
+                    className="flex flex-col gap-2 max-w-[150px] border-b-2 border-zinc-600 pb-3"
                   >
-                    <p className="text-sm px-2">
-                      <label className="text-zinc-300">Nome:</label>{" "}
-                      {playerData.name}
-                    </p>
-                    <p className="text-sm px-2">
-                      <label className="text-zinc-300">Idade:</label>{" "}
-                      {playerData.age}
-                    </p>
-                    <p className="text-sm px-2">
-                      <label className="text-zinc-300">Posição:</label>{" "}
-                      {playerData.position}
-                    </p>
+                    <span>
+                      <img src={playerData.photo} alt="Avatar Jogador" className="rounded-xl" />
+                    </span>
+                    <div className="flex flex-col gap-1 text-sm">
+                      <p>
+                        <label className="text-amber-100">Nome:</label>{" "}
+                        {playerData.name}
+                      </p>
+                      <p>
+                        <label className="text-amber-100">Idade:</label>{" "}
+                        {playerData.age} Anos
+                      </p>
+                      <p>
+                        <label className="text-amber-100">Camisa:</label>{" "}
+                        {playerData.number}
+                      </p>
+                      <p>
+                        <label className="text-amber-100">Posição:</label>{" "}
+                        {playerData.position}
+                      </p>
+                    </div>
                   </li>
                 ))}
               </ul>
-            </li>
+            </div>
           ))}
-        </ul>
+        </div>
       ) : (
         <Loading />
       )}

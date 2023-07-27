@@ -10,8 +10,8 @@ function InfoPlayer() {
       <h1 className="title-content">Informações do Jogador:</h1>
       {infoPlayer ? (
         <ul>
-          {infoPlayer.map((playerInfo, index) => (
-            <li key={index} className="flex gap-3">
+          {infoPlayer.map((playerInfo) => (
+            <li key={playerInfo.player.id} className="flex gap-3">
               <span>
                 <img src={playerInfo.player.photo} alt="Avatar jogador" className="rounded-xl" />
               </span>
@@ -32,13 +32,13 @@ function InfoPlayer() {
                    <label className="text-amber-200">Peso:</label>
                   {playerInfo.player.weight}
                 </p>
-                <p className="flex gap-1 items-center text-sm">
+                <div className="flex gap-1 items-center text-sm">
                   <label className="text-amber-200">Nacionalidade:</label>
-                  <div className="flex gap-1">
+                  <p className="flex gap-1">
                     <span>{playerInfo.player.nationality}</span>/
                     <span>{playerInfo.player.birth.place}</span>
-                  </div>
-                </p>
+                  </p>
+                </div>
               </div>
             </li>
           ))}
