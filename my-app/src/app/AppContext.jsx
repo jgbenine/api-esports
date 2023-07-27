@@ -40,11 +40,13 @@ export const AppProvider = ({ children }) => {
 
     async function fetchInfoPlayer(){
       const responseFetch = await fetchDefault(`/players?id=2283&season=2019`);
-      const infoPlayer = responseFetch.data.response;
-      setInfoPlayer(infoPlayer)
+      const data = responseFetch.data.response;
+      setInfoPlayer(data)
       console.log(infoPlayer);
     }
     fetchInfoPlayer();
+
+    setSelectedEstatitics("infoPlayer");
   }
 
   //Estatística dos jogos
