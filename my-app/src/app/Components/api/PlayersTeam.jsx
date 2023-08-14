@@ -3,7 +3,7 @@ import React from "react";
 import Loading from "../Loading";
 
 function PlayersTeam() {
-  const { selectedPlayers } = React.useContext(AppContext);
+  const { selectedPlayers, getInfoPlayer } = React.useContext(AppContext);
 
   return (
     <section>
@@ -11,14 +11,14 @@ function PlayersTeam() {
       {selectedPlayers ? (
         <div className="mt-3">
           {selectedPlayers.map((player, index) => (
-            <div key={index}>
+            <button onClick={getInfoPlayer} key={index}>
               <ul className="grid grid-cols-5 gap-x-3 gap-y-6">
-                {player.players.map((playerData) => (
+                {player.players.map((playerData, index) => (
                   <li
-                    key={playerData.player.id}
+                    key={index}
                     className="flex flex-col gap-2 max-w-[150px] border-b-2 border-zinc-600 pb-3"
                   >
-                    <span>
+                    <span className="w-32 h-32">
                       <img src={playerData.photo} alt="Avatar Jogador" className="rounded-xl" />
                     </span>
                     <div className="flex flex-col gap-1 text-sm">
@@ -42,7 +42,7 @@ function PlayersTeam() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </button>
           ))}
         </div>
       ) : (

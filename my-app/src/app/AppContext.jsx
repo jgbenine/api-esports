@@ -39,13 +39,12 @@ export const AppProvider = ({ children }) => {
     event.preventDefault();
 
     async function fetchInfoPlayer(){
-      const responseFetch = await fetchDefault(`/players?id=2283&season=2019`);
+      const responseFetch = await fetchDefault(`/players?id=2283&season=2018`);
       const data = responseFetch.data.response;
       setInfoPlayer(data)
       console.log(infoPlayer);
     }
     fetchInfoPlayer();
-
     setSelectedEstatitics("infoPlayer");
   }
 

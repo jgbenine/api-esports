@@ -1,5 +1,6 @@
 import React from "react";
 import { AppContext } from "@/app/AppContext";
+import Loading from "../Loading";
 
 function InfoPlayer() {
   const { infoPlayer } = React.useContext(AppContext);
@@ -44,7 +45,7 @@ function InfoPlayer() {
           ))}
         </ul>
       ) : (
-        <p>teste</p>
+        <Loading />
       )}
     </section>
   );
