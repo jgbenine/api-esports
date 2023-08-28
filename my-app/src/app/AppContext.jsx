@@ -34,13 +34,14 @@ export const AppProvider = ({ children }) => {
     setSelectedEstatitics("players");
   }
 
-  //Informações de jogador  
-  function getInfoPlayer(event){
+  //Informações do jogador  
+  function getInfoPlayer(event, playerId, seasonId){
     event.preventDefault();
 
     async function fetchInfoPlayer(){
-      const responseFetch = await fetchDefault(`/players?id=2283&season=2018`);
+      const responseFetch = await fetchDefault(`/players?id=${10121}&season=${2023}`);
       const data = responseFetch.data.response;
+      console.log(responseFetch)
       setInfoPlayer(data)
       console.log(infoPlayer);
     }
