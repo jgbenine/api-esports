@@ -9,8 +9,8 @@ function ActionsMenu() {
   const { getPlayers, getGames, getTimeGoals, getLineUp } = React.useContext(AppContext);
 
   return (
-    <div className="flex flex-col gap-10 bg-zinc-900 py-8 px-6 shadow-lg shadow-zinc-900">
-      <article className="flex flex-col">
+    <section className="flex flex-col gap-10 bg-zinc-900 py-8 px-6 shadow-lg shadow-zinc-900">
+      <div className="flex flex-col">
         <p className="text-sm text-zinc-400 pb-1">
           Selecione todas opções para obter estatísticas:
         </p>
@@ -20,8 +20,8 @@ function ActionsMenu() {
           <SeasonSelect />
           <TeamSelect />
         </span>
-      </article>
-      <article className="flex flex-col gap-3 border-red-500">
+      </div>
+      <div className="flex flex-col gap-3 border-red-500">
         <p className="text-sm text-zinc-400">Ações:</p>
         <span className="flex max-w-[280px] gap-3 flex-col sm:flex-row sm:max-w-full">
           <Button onClick={getPlayers} textView="Jogadores do time" />
@@ -30,8 +30,8 @@ function ActionsMenu() {
           <Button onClick={getLineUp} textView="Formação mais utilizada" />
           {/* <Button onClick={getInfoPlayer} textView="Info Jogador" /> */}
         </span>
-      </article>
-    </div>
+      </div>
+    </section>
   );
 }
 
