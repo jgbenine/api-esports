@@ -13,6 +13,8 @@ A partir disso é possível fazer algumas requisições de informações sobre e
 - É possível verificar estatísticas de partidas em uma determinada temporada e liga. <br>
 Total de partidas Jogadas, Ganhas, Empatadas e Perdidas.
 - É possível verificar porcentagem de gols por tempo de jogo do time.
+- É possível verificar informações e estástiticas básicas de um jogador,
+  leva em consideração o Ano/Season selecionada.
 
 - Essa aplicação tem um limite de 100 requisições por dia, definido pela API.
 
