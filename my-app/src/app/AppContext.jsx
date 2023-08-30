@@ -82,8 +82,6 @@ export const AppProvider = ({ children }) => {
       const responseFetch = await fetchDefault(`/players?id=${playerId}&season=${selectedSeason}`);
       const data = responseFetch.data.response;
       setInfoPlayer(data)
-      console.log(data)
-      //CORRIGIR E VERIFICAR O PORQUE NÃO ESTÁ TRAZENDO INFO DO FETCH
     }
     fetchInfoPlayer();
     setSelectedEstatitics("infoPlayer");
