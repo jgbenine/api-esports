@@ -34,21 +34,6 @@ export const AppProvider = ({ children }) => {
     setSelectedEstatitics("players");
   }
 
-  //Informações do jogador  
-  function getInfoPlayer(event, playerId, seasonId){
-    event.preventDefault();
-
-    async function fetchInfoPlayer(){
-      const responseFetch = await fetchDefault(`/players?id=${10121}&season=${2023}`);
-      const data = responseFetch.data.response;
-      console.log(responseFetch)
-      setInfoPlayer(data)
-      console.log(infoPlayer);
-    }
-    fetchInfoPlayer();
-    setSelectedEstatitics("infoPlayer");
-  }
-
   //Estatística dos jogos
   function getGames(event) {
     event.preventDefault();
@@ -87,6 +72,21 @@ export const AppProvider = ({ children }) => {
       fetchTimeGoals(selectedSeason, selectedTeam, selectedLeague);
     }
     setSelectedEstatitics("tempoGol");
+  }
+
+  //Informações do jogador  
+  function getInfoPlayer(event, playerId){
+    event.preventDefault();
+
+    async function fetchInfoPlayer(){
+      const responseFetch = await fetchDefault(`/players?id=${playerId}&season=${selectedSeason}`);
+      const data = responseFetch.data.response;
+      setInfoPlayer(data)
+      console.log(data)
+      //CORRIGIR E VERIFICAR O PORQUE NÃO ESTÁ TRAZENDO INFO DO FETCH
+    }
+    fetchInfoPlayer();
+    setSelectedEstatitics("infoPlayer");
   }
 
   //Formação mais utilizada.

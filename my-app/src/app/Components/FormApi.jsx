@@ -23,7 +23,6 @@ function FormApi() {
     selectedPlayers,
     getLineUp,
     infoPlayer,
-    getInfoPlayer,
   } = React.useContext(AppContext);
 
   return (
@@ -47,7 +46,7 @@ function FormApi() {
             <Button onClick={getGames} textView="Estatísticas dos jogos" />
             <Button onClick={getTimeGoals} textView="Gols por tempo de jogo" />
             <Button onClick={getLineUp} textView="Formação mais utilizada" />
-            <Button onClick={getInfoPlayer} textView="Info Jogador" />
+            {/* <Button onClick={getInfoPlayer} textView="Info Jogador" /> */}
           </span>
         </article>
       </div>

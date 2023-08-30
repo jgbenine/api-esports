@@ -3,16 +3,14 @@ import { AppContext } from "@/app/AppContext";
 import Loading from "../Loading";
 
 function InfoPlayer() {
-  const { infoPlayer } = React.useContext(AppContext);
-  console.log(infoPlayer);
-
+  const { infoPlayer, selectedSeason } = React.useContext(AppContext);
   return (
     <section>
-      <h1 className="title-content">Informações do Jogador:</h1>
+      <h1 className="title-content">Informações do Jogador em {selectedSeason}:</h1>
       {infoPlayer ? (
         <ul className="flex gap-4">
-          {infoPlayer.map((playerInfo) => (
-            <li key={playerInfo.player.id} className="flex gap-3">
+          {infoPlayer.map((playerInfo, index) => (
+            <li key={index} className="flex gap-3">
               <span>
                 <img
                   src={playerInfo.player.photo}
@@ -48,13 +46,13 @@ function InfoPlayer() {
             </li>
           ))}
           {infoPlayer.map((infoStatistic) => {
-            const statisticsArray = infoStatistic.statistics;
-            const lastStatistic = statisticsArray[statisticsArray.length - 1];
+            const statisticsArray = infoStatistic.statistics[0];
+            // const lastStatistic = statisticsArray[statisticsArray.length - 1];
             return (
-              <div className="flex">
+              <div className="flex gap-4">
                 <span>
                   <img
-                    src={lastStatistic.team.logo}
+                    src={statisticsArray.team.logo}
                     alt="Avatar jogador"
                     className="rounded-xl"
                   />
@@ -63,31 +61,31 @@ function InfoPlayer() {
                 <li className="flex gap-1">
                   <label className="text-amber-200 text-sm">Time:</label>
                   <p className="flex gap-1 text-sm">
-                    <span>{lastStatistic.team.name}</span>
+                    <span>{statisticsArray.team.name}</span>
                   </p>
                 </li>
                 <li className="flex gap-1">
                   <label className="text-amber-200 text-sm">Posição:</label>
                   <p className="flex gap-1 text-sm">
-                    <span>{lastStatistic.games.position}</span>
+                    <span>{statisticsArray.games.position}</span>
                   </p>
                 </li>
                 <li className="flex gap-1">
                   <label className="text-amber-200 text-sm">Totais de Jogos:</label>
                   <p className="flex gap-1 text-sm">
-                    <span>{lastStatistic.duels.total} Jogos</span>
+                    <span>{statisticsArray.duels.total} Jogos</span>
                   </p>
                 </li>
                 <li className="flex gap-1">
                   <label className="text-amber-200 text-sm">Jogos ganhos:</label>
                   <p className="flex gap-1 text-sm">
-                    <span>{lastStatistic.duels.won} Jogos</span>
+                    <span>{statisticsArray.duels.won} Jogos</span>
                   </p>
                 </li>
                 <li className="flex gap-1">
                   <label className="text-amber-200 text-sm">Avaliação:</label>
                   <p className="flex gap-1 text-sm">
-                    <span>{lastStatistic.games.rating}</span>
+                    <span>{statisticsArray.games.rating}</span>
                   </p>
                 </li>
               </div>
