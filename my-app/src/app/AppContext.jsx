@@ -12,6 +12,7 @@ export const AppProvider = ({ children }) => {
   const [selectedTimeGoals, setselectedTimeGoals] = React.useState([]);
   const [selectedEstatitic, setSelectedEstatitics] = React.useState(null);
   const [selectedLineUp, setselectedLineUp] = React.useState([]);
+  const [infoPlayer, setInfoPlayer] = React.useState([]);
 
   //Retorna todos os jogadores de um time
   function getPlayers(event) {
@@ -71,6 +72,19 @@ export const AppProvider = ({ children }) => {
       fetchTimeGoals(selectedSeason, selectedTeam, selectedLeague);
     }
     setSelectedEstatitics("tempoGol");
+  }
+
+  //Informações do jogador  
+  function getInfoPlayer(event, playerId){
+    event.preventDefault();
+
+    async function fetchInfoPlayer(){
+      const responseFetch = await fetchDefault(`/players?id=${playerId}&season=${selectedSeason}`);
+      const data = responseFetch.data.response;
+      setInfoPlayer(data)
+    }
+    fetchInfoPlayer();
+    setSelectedEstatitics("infoPlayer");
   }
 
   //Formação mais utilizada.
@@ -133,6 +147,8 @@ export const AppProvider = ({ children }) => {
         selectedLineUp,
         getLineupWithMaxPlayed,
         lineupWithMaxPlayed,
+        getInfoPlayer,
+        infoPlayer,
       }}
     >
       {children}

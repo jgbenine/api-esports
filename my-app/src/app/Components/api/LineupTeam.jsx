@@ -20,7 +20,7 @@ function LineupTeam() {
           </p>
         </div>
       ) : (
-        <Loading />
+       <p>Esse time não possui formações disponíveis.</p>
       )}
     </article>
   );

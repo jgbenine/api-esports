@@ -8,6 +8,8 @@ import PlayersTeam from "../Components/api/PlayersTeam";
 import LineupTeam from "../Components/api/LineupTeam";
 import MatchesTeam from "../Components/api/MatchesTeam";
 import GoalsByGameTime from "../Components/api/GoalsByGameTime";
+import InfoPlayer from "./api/InfoPlayer";
+
 import { AppContext } from "../AppContext";
 
 function FormApi() {
@@ -20,6 +22,7 @@ function FormApi() {
     getTimeGoals,
     selectedPlayers,
     getLineUp,
+    infoPlayer,
   } = React.useContext(AppContext);
 
   return (
@@ -43,6 +46,7 @@ function FormApi() {
             <Button onClick={getGames} textView="Estatísticas dos jogos" />
             <Button onClick={getTimeGoals} textView="Gols por tempo de jogo" />
             <Button onClick={getLineUp} textView="Formação mais utilizada" />
+            {/* <Button onClick={getInfoPlayer} textView="Info Jogador" /> */}
           </span>
         </article>
       </div>
@@ -56,7 +60,12 @@ function FormApi() {
           <GoalsByGameTime />
         )}
         {selectedEstatitic === "lineup" && selectedPlayers && <LineupTeam />}
+
+        {selectedEstatitic === "infoPlayer" && infoPlayer &&  <InfoPlayer />}
       </div>
+
+
+
     </section>
   );
 }
